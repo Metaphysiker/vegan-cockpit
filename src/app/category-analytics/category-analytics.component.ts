@@ -31,7 +31,9 @@ export class CategoryAnalyticsComponent implements OnInit {
     this.analysis_status = "in_progress";
     console.log(this.analysis_status);
 
-    console.log(this.googleAnalyticsService.getData());
+    this.googleAnalyticsService.getData().subscribe((data: any) => {
+      console.log(data)
+    })
   }
 
 }

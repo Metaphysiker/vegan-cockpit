@@ -15,7 +15,10 @@ export class GoogleAnalyticsService {
 
   getData(): any {
     var data = ["abc", "def"];
-    return data;
+
+    return this.http.get<any>('https://api.publicapis.org/entries');
+
+    //return data;
   }
 
 }
