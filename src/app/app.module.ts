@@ -15,6 +15,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MAT_DATE_LOCALE } from '@angular/material/core'
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatNativeDateModule,
     MatDatepickerModule,
     MatFormFieldModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
