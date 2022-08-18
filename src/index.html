@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="google-signin-client_id" content="833538385040-8c164qj3064f6hc7ntfq5ovtffv0spas.apps.googleusercontent.com">
+  <meta name="google-signin-scope" content="https://www.googleapis.com/auth/analytics.readonly">
   <title>VeganCockpit</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,9 +13,18 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body class="mat-typography">
-  <div id="testicus">
-    swag yolo
+  <!-- Load the JavaScript API client and Sign-in library. -->
+<script src="https://apis.google.com/js/client:platform.js"></script>
+  <!-- The Sign-in button. This will run `queryReports()` on success. -->
+  <div class="container">
+    <p class="g-signin2" data-onsuccess="queryReports">
+    </p>
+    <div id="testicus">
+      swag yolo
+    </div>
   </div>
+
   <app-root></app-root>
+
 </body>
 </html>
