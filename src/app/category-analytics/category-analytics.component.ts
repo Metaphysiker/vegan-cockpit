@@ -3,7 +3,7 @@ import {FormControl} from '@angular/forms';
 
 import { GoogleAnalyticsService } from '../google-analytics.service';
 
-declare const myTest: any;
+declare const wuTest: any;
 declare const gapi: any;
 
 @Component({
@@ -35,7 +35,7 @@ export class CategoryAnalyticsComponent implements OnInit {
   }
 
   onClick() {
-    //myTest();
+    wuTest();
     console.log(gapi.client);
   }
 
