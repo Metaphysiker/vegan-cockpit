@@ -3,6 +3,9 @@ import {FormControl} from '@angular/forms';
 
 import { GoogleAnalyticsService } from '../google-analytics.service';
 
+declare const myTest: any;
+declare const gapi: any;
+
 @Component({
   selector: 'app-category-analytics',
   templateUrl: './category-analytics.component.html',
@@ -31,6 +34,11 @@ export class CategoryAnalyticsComponent implements OnInit {
 
   }
 
+  onClick() {
+    //myTest();
+    console.log(gapi.client);
+  }
+
   startAnalysis() {
     console.log("startAnalysis");
     this.analysis_status = "in_progress";
@@ -42,7 +50,7 @@ export class CategoryAnalyticsComponent implements OnInit {
 
 
     this.googleAnalyticsService.getData().subscribe((data: any) => {
-      console.log(data)
+      console.log(gapi.client.xyz)
     })
   }
 
