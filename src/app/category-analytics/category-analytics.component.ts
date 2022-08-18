@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl} from '@angular/forms';
 
+import { GoogleAnalyticsService } from '../google-analytics.service';
+
 @Component({
   selector: 'app-category-analytics',
   templateUrl: './category-analytics.component.html',
@@ -13,7 +15,11 @@ export class CategoryAnalyticsComponent implements OnInit {
 
   analysis_status = "idle";
 
-  constructor() { }
+  constructor(
+    private googleAnalyticsService: GoogleAnalyticsService
+  ) {
+
+  }
 
   ngOnInit(): void {
 
@@ -24,6 +30,8 @@ export class CategoryAnalyticsComponent implements OnInit {
     console.log("startAnalysis");
     this.analysis_status = "in_progress";
     console.log(this.analysis_status);
+
+    console.log(this.googleAnalyticsService.getData());
   }
 
 }

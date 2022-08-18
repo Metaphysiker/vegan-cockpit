@@ -29,7 +29,7 @@
   </div>
 
   <div *ngIf="this.analysis_status == 'in_progress'">
-    <div class="card text-center">
+    <div class="card text-center my-3">
       <div class="card-body">
         Bitte warten - das kann eine Weile dauern.
       </div>
@@ -41,4 +41,21 @@
       </div>
     </div>
   </div>
+
+  <div *ngIf="this.analysis_status == 'in_progress'">
+    <div class="card text-center my-3">
+      <div class="card-body">
+        Bitte warten - das kann eine Weile dauern.
+      </div>
+      <hr>
+      <div class="d-flex justify-content-center mb-3">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
 </div>
