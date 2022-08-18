@@ -11,11 +11,19 @@ export class CategoryAnalyticsComponent implements OnInit {
 
   end_date = new FormControl(new Date());
 
+  analysis_status = "idle";
+
   constructor() { }
 
   ngOnInit(): void {
 
 
+  }
+
+  startAnalysis() {
+    console.log("startAnalysis");
+    this.analysis_status = "in_progress";
+    console.log(this.analysis_status);
   }
 
 }
