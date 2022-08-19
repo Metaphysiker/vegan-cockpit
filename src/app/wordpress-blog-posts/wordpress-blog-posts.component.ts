@@ -23,10 +23,10 @@ export class WordpressBlogPostsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.getAllBlogPosts().then(() => {
-      console.log("get all blog posts finished")
-      this.iterateOverBlogPostsAndGetGoogleData();
-    });
+    this.getAllBlogPosts()
+      .then(() => this.iterateOverBlogPostsAndGetGoogleData())
+      .then(() => console.log("iterate fini fini fini finished"));
+  
 
   }
 
@@ -58,7 +58,11 @@ export class WordpressBlogPostsComponent implements OnInit {
               console.log("response length");
               console.log(response.length);
               //self.blog_posts = self.blog_posts + response;
-              self.blog_posts = response;
+
+              var existing_blog_posts = self.blog_posts;
+              self.blog_posts = [...existing_blog_posts, ...response];
+
+              console.log(self.blog_posts.constructor.name)
 
 
               loop_resolve();
