@@ -16,13 +16,19 @@ import { MAT_DATE_LOCALE } from '@angular/material/core'
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
+import { WordpressCategoriesComponent } from './wordpress-categories/wordpress-categories.component';
+import { WordpressBlogPostComponent } from './wordpress-blog-post/wordpress-blog-post.component';
+import { WordpressBlogPostsComponent } from './wordpress-blog-posts/wordpress-blog-posts.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     WelcomeComponent,
-    CategoryAnalyticsComponent
+    CategoryAnalyticsComponent,
+    WordpressCategoriesComponent,
+    WordpressBlogPostComponent,
+    WordpressBlogPostsComponent
   ],
   imports: [
     BrowserModule,

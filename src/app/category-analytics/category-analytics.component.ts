@@ -16,6 +16,7 @@ export class CategoryAnalyticsComponent implements OnInit {
   testicus = document.querySelector('#testicus');
   data_google_view_id = document.querySelector('#data-google-view-id');
 
+  data_google_view_id_string: string = "";
 
   start_date = new FormControl(new Date('2022-01-01'));
 
@@ -23,7 +24,9 @@ export class CategoryAnalyticsComponent implements OnInit {
 
   analysis_status = "idle";
 
+  categories: [] = []
 
+  blog_posts: [] = []
 
 
   constructor(
@@ -34,7 +37,9 @@ export class CategoryAnalyticsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    if(this.data_google_view_id != null){
+      this.data_google_view_id_string = this.data_google_view_id.innerHTML.trim();
+    }
   }
 
   onClick() {
@@ -56,7 +61,7 @@ export class CategoryAnalyticsComponent implements OnInit {
     if(this.data_google_view_id != null){
 
       this.googleAnalyticsService.getDataFromGoogle(
-        this.data_google_view_id.innerHTML.trim(),
+        this.data_google_view_id_string,
           {
             startDate: this.start_date.value.toISOString().slice(0, 10),
             endDate: this.end_date.value.toISOString().slice(0, 10)
@@ -70,10 +75,16 @@ export class CategoryAnalyticsComponent implements OnInit {
     }
 
     this.wordpressService.getCategories()
-    .subscribe((response: any) => console.log(response));
+    .subscribe((response: any) => {
+      this.categories = response;
+      console.log(response);
+    });
 
     this.wordpressService.getPostsWithCategories(1165, 100, 1)
-    .subscribe((response: any) => console.log(response));
+    .subscribe((response: any) => {
+      console.log(response);
+      this.blog_posts = response;
+    });
 
 
 

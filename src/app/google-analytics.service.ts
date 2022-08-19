@@ -61,7 +61,7 @@ export class GoogleAnalyticsService {
   							{
   							 //"operator": "REGEXP",
   							 //https://developers.google.com/analytics/devguides/reporting/core/v4/rest/v4/reports/batchGet
-  							 "operator": "BEGINS_WITH",
+  							 "operator": "REGEXP",
   							 "dimensionName": "ga:pagePath",
   							 "expressions": [
   								 relative_url

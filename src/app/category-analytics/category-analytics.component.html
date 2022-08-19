@@ -35,6 +35,12 @@
     </div>
   </div>
 
+  <div *ngIf="this.categories.length > 0">
+    <app-wordpress-categories [categories]="categories"></app-wordpress-categories>
+  </div>
+
+  <app-wordpress-blog-posts [blog_posts]="blog_posts" [category]="'yolo'" [start_date]="start_date.value.toISOString().slice(0, 10)" [end_date]="end_date.value.toISOString().slice(0, 10)" [data_google_view_id]="data_google_view_id_string" ></app-wordpress-blog-posts>
+
   <div *ngIf="this.analysis_status == 'in_progress'">
     <div class="card text-center my-3">
       <div class="card-body">
@@ -62,6 +68,8 @@
       </div>
     </div>
   </div>
+
+
 
 
 
