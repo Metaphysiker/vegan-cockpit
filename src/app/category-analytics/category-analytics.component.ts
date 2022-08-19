@@ -26,7 +26,7 @@ export class CategoryAnalyticsComponent implements OnInit {
 
   categories: [] = []
 
-  blog_posts: [] = []
+  //blog_posts: [] = []
 
 
   constructor(
@@ -53,39 +53,28 @@ export class CategoryAnalyticsComponent implements OnInit {
 
     var self = this;
 
-    if(this.testicus != null){
-      console.log(this.testicus.innerHTML);
-    }
-
     //start google query
-    if(this.data_google_view_id != null){
+    //if(this.data_google_view_id != null){
 
-      this.googleAnalyticsService.getDataFromGoogle(
-        this.data_google_view_id_string,
-          {
-            startDate: this.start_date.value.toISOString().slice(0, 10),
-            endDate: this.end_date.value.toISOString().slice(0, 10)
-          },
-        "/blog").then(
-        function(value: any) {
-            console.log(value);
-            self.analysis_status = "idle";
-        });
+      //this.googleAnalyticsService.getDataFromGoogle(
+      //  this.data_google_view_id_string,
+      //    {
+      //      startDate: this.start_date.value.toISOString().slice(0, 10),
+      //      endDate: this.end_date.value.toISOString().slice(0, 10)
+      //    },
+      //  "/blog").then(
+      //  function(value: any) {
+      //      console.log(value);
+      //      self.analysis_status = "idle";
+      //  });
     //end google query
-    }
+    //}
 
     this.wordpressService.getCategories()
     .subscribe((response: any) => {
       this.categories = response;
       console.log(response);
     });
-
-    this.wordpressService.getPostsWithCategories(1165, 100, 1)
-    .subscribe((response: any) => {
-      console.log(response);
-      this.blog_posts = response;
-    });
-
 
 
 
