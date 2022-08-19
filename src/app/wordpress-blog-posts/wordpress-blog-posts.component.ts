@@ -1,6 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GoogleAnalyticsService } from '../google-analytics.service';
 import { WordpressService } from '../wordpress.service';
+
+import { Analysis } from '../analysis';
 
 @Component({
   selector: 'app-wordpress-blog-posts',
@@ -10,6 +12,8 @@ import { WordpressService } from '../wordpress.service';
 export class WordpressBlogPostsComponent implements OnInit {
 
   @Input() blog_posts: any = [];
+
+  @Output() analysisCompleteEvent = new EventEmitter<Analysis>();
 
   @Input() category: any = {id: 0, name: "Default"};
 
@@ -25,8 +29,11 @@ export class WordpressBlogPostsComponent implements OnInit {
 
     this.getAllBlogPosts()
       .then(() => this.iterateOverBlogPostsAndGetGoogleData())
-      .then(() => console.log("iterate fini fini fini finished"));
-  
+      .then(() => {
+        console.log("iterate fini fini fini finished");
+        this.analysisComplete();
+      });
+
 
   }
 
@@ -36,6 +43,28 @@ export class WordpressBlogPostsComponent implements OnInit {
 
     //this.iterateOverBlogPostsAndGetGoogleData().then((response: any) => console.log("finished"));
 
+  }
+
+  analysisComplete() {
+    this.analysisCompleteEvent.emit(this.getTotals())
+  }
+
+  getTotals(): Analysis {
+
+    var analysis: Analysis = {
+      category_id: this.category["id"],
+      users: 0,
+      sessions: 0,
+      pageviews: 0
+    }
+
+    for (let i = 0; i < this.blog_posts.length; i++) {
+      analysis["users"] = analysis["users"] + this.blog_posts[i]["users"];
+      analysis["sessions"] = analysis["sessions"] + this.blog_posts[i]["sessions"];
+      analysis["pageviews"] = analysis["pageviews"] + this.blog_posts[i]["pageviews"];
+    }
+
+    return analysis;
   }
 
   getAllBlogPosts(): any {

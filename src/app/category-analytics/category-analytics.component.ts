@@ -4,6 +4,8 @@ import {FormControl} from '@angular/forms';
 import { GoogleAnalyticsService } from '../google-analytics.service';
 import { WordpressService } from '../wordpress.service';
 
+import { Analysis } from '../analysis';
+
 declare const wuTest: any;
 declare const gapi: any;
 
@@ -45,6 +47,10 @@ export class CategoryAnalyticsComponent implements OnInit {
   onClick() {
     wuTest();
     console.log(gapi.client);
+  }
+
+  collectNumber(analysis: Analysis){
+    console.log(analysis);
   }
 
   startAnalysis() {

@@ -40,7 +40,7 @@
   </div>
 
   <div *ngFor="let category of categories">
-      <app-wordpress-blog-posts [category]="category" [start_date]="start_date.value.toISOString().slice(0, 10)" [end_date]="end_date.value.toISOString().slice(0, 10)" [data_google_view_id]="data_google_view_id_string" ></app-wordpress-blog-posts>
+      <app-wordpress-blog-posts [category]="category" [start_date]="start_date.value.toISOString().slice(0, 10)" [end_date]="end_date.value.toISOString().slice(0, 10)" [data_google_view_id]="data_google_view_id_string" (analysisCompleteEvent)="collectNumber($event)" ></app-wordpress-blog-posts>
   </div>
 
 
