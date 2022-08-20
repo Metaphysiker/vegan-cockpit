@@ -90,10 +90,11 @@ export class CategoryAnalyticsComponent implements OnInit {
     var labels: string[] = [];
     var data: number[] = [];
     var text: string = "users";
+    var sorted_array = this.analyses.sort(function(a, b){return b["users"] - a["users"]});
 
-    for (let i = 0; i < this.analyses.length; i++) {
-      labels.push(String(this.analyses[i]["category_id"]));
-      data.push(this.analyses[i]["users"]);
+    for (let i = 0; i < sorted_array.length; i++) {
+      labels.push(sorted_array[i]["category_name"] +  ": " + sorted_array[i]["users"]);
+      data.push(sorted_array[i]["users"]);
     }
 
     this.pieChartData = {
@@ -132,8 +133,8 @@ export class CategoryAnalyticsComponent implements OnInit {
 
     this.wordpressService.getCategories()
     .subscribe((response: any) => {
-      //this.categories_length = response.length;
-      this.categories_length = 2;
+      this.categories_length = response.length;
+      //this.categories_length = 3;
       this.categories_to_be_done = response;
 
       this.categories.push(this.categories_to_be_done.shift());

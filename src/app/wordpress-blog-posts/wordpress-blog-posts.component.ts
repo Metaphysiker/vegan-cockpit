@@ -53,6 +53,7 @@ export class WordpressBlogPostsComponent implements OnInit {
 
     var analysis: Analysis = {
       category_id: this.category["id"],
+      category_name: this.category["name"],
       users: 0,
       sessions: 0,
       pageviews: 0

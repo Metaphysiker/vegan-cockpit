@@ -32,7 +32,7 @@ export class PieChartComponent implements OnInit {
           labels: this.pieChartData["labels"],
           datasets: [{
             label: "Population (millions)",
-            backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+            backgroundColor: ["#DFFF00", "#FFBF00","#FF7F50","#DE3163","#9FE2BF", "#40E0D0", "#6495ED", "#CCCCFF", "#4C3A51", "#774360"],
             data: this.pieChartData["data"]
           }]
         },
