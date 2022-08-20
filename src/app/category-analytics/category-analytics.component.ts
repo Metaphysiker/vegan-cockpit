@@ -5,6 +5,8 @@ import { GoogleAnalyticsService } from '../google-analytics.service';
 import { WordpressService } from '../wordpress.service';
 
 import { Analysis } from '../analysis';
+import { PieChartData } from '../pie-chart-data';
+
 
 declare const wuTest: any;
 declare const gapi: any;
@@ -33,6 +35,9 @@ export class CategoryAnalyticsComponent implements OnInit {
   categories_length: number = 0;
 
   analyses: Analysis[] = []
+
+  pieChartDatas: PieChartData[] = []
+  pieChartData: PieChartData | undefined;
 
   //blog_posts: [] = []
 
@@ -71,10 +76,33 @@ export class CategoryAnalyticsComponent implements OnInit {
     if(this.analyses.length == this.categories_length) {
       this.analysis_status = "finished";
       console.log("ANALYSIS FINISHED");
+      this.fillPieChartDatas();
     } else {
       this.categories.push(this.categories_to_be_done.shift());
       console.log("shift");
     }
+
+
+  }
+
+  fillPieChartDatas() {
+
+    var labels: string[] = [];
+    var data: number[] = [];
+    var text: string = "users";
+
+    for (let i = 0; i < this.analyses.length; i++) {
+      labels.push(String(this.analyses[i]["category_id"]));
+      data.push(this.analyses[i]["users"]);
+    }
+
+    this.pieChartData = {
+        labels: labels,
+        data: data,
+        text: text
+      }
+
+      console.log(this.pieChartData);
 
 
   }
@@ -104,7 +132,8 @@ export class CategoryAnalyticsComponent implements OnInit {
 
     this.wordpressService.getCategories()
     .subscribe((response: any) => {
-      this.categories_length = response.length;
+      //this.categories_length = response.length;
+      this.categories_length = 2;
       this.categories_to_be_done = response;
 
       this.categories.push(this.categories_to_be_done.shift());

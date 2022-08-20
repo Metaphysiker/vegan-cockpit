@@ -19,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { WordpressCategoriesComponent } from './wordpress-categories/wordpress-categories.component';
 import { WordpressBlogPostComponent } from './wordpress-blog-post/wordpress-blog-post.component';
 import { WordpressBlogPostsComponent } from './wordpress-blog-posts/wordpress-blog-posts.component';
+import { PieChartComponent } from './pie-chart/pie-chart.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { WordpressBlogPostsComponent } from './wordpress-blog-posts/wordpress-bl
     CategoryAnalyticsComponent,
     WordpressCategoriesComponent,
     WordpressBlogPostComponent,
-    WordpressBlogPostsComponent
+    WordpressBlogPostsComponent,
+    PieChartComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,6 @@
 <div class="container">
   <div class="card my-3">
     <div class="card-body">
-      <button (click)="onClick()" class="btn btn-primary">Click Me</button>
 
       <h5 class="card-title">Optionen</h5>
 
@@ -22,6 +21,8 @@
         </div>
       </div>
 
+
+
       <div *ngIf="this.analysis_status == 'idle'">
         <button type="button" (click)="startAnalysis()" class="btn btn-primary my-2">Starten</button>
       </div>
@@ -36,6 +37,9 @@
   </div>
 
 
+<div *ngIf="this.pieChartData != undefined">
+  <app-pie-chart [pieChartData]="pieChartData"></app-pie-chart>
+</div>
 
   <div *ngFor="let category of categories">
       <app-wordpress-blog-posts [category]="category" [start_date]="start_date.value.toISOString().slice(0, 10)" [end_date]="end_date.value.toISOString().slice(0, 10)" [data_google_view_id]="data_google_view_id_string" (analysisCompleteEvent)="analysisComplete($event)" ></app-wordpress-blog-posts>
