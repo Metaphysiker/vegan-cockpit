@@ -17,7 +17,7 @@ declare const gapi: any;
   styleUrls: ['./category-analytics.component.scss']
 })
 export class CategoryAnalyticsComponent implements OnInit {
-  testicus = document.querySelector('#testicus');
+  //testicus = document.querySelector('#testicus');
   data_google_view_id = document.querySelector('#data-google-view-id');
 
   data_google_view_id_string: string = "";
