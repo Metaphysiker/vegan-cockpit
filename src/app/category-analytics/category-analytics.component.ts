@@ -28,6 +28,12 @@ export class CategoryAnalyticsComponent implements OnInit {
 
   categories:any[] = []
 
+  categories_to_be_done:any[] = []
+
+  categories_length: number = 0;
+
+  analyses: Analysis[] = []
+
   //blog_posts: [] = []
 
 
@@ -51,6 +57,26 @@ export class CategoryAnalyticsComponent implements OnInit {
 
   collectNumber(analysis: Analysis){
     console.log(analysis);
+  }
+
+  analysisComplete(analysis: Analysis){
+    console.log(analysis);
+    this.analyses.push(analysis);
+    console.log("this.analyses: ");
+    console.log(this.analyses);
+
+    console.log(this.analyses.length);
+    console.log(this.categories.length);
+
+    if(this.analyses.length == this.categories_length) {
+      this.analysis_status = "finished";
+      console.log("ANALYSIS FINISHED");
+    } else {
+      this.categories.push(this.categories_to_be_done.shift());
+      console.log("shift");
+    }
+
+
   }
 
   startAnalysis() {
@@ -78,7 +104,11 @@ export class CategoryAnalyticsComponent implements OnInit {
 
     this.wordpressService.getCategories()
     .subscribe((response: any) => {
-      this.categories.push(response[0])
+      this.categories_length = response.length;
+      this.categories_to_be_done = response;
+
+      this.categories.push(this.categories_to_be_done.shift());
+      //this.categories.push(response[0])
       //this.categories = [response[0]];
       //this.categories = response;
       //console.log(response);
