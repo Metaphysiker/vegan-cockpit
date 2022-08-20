@@ -26,7 +26,7 @@ export class CategoryAnalyticsComponent implements OnInit {
 
   analysis_status = "idle";
 
-  categories: [] = []
+  categories:any[] = []
 
   //blog_posts: [] = []
 
@@ -78,8 +78,10 @@ export class CategoryAnalyticsComponent implements OnInit {
 
     this.wordpressService.getCategories()
     .subscribe((response: any) => {
-      this.categories = response;
-      console.log(response);
+      this.categories.push(response[0])
+      //this.categories = [response[0]];
+      //this.categories = response;
+      //console.log(response);
     });
 
 

@@ -59,9 +59,25 @@ export class WordpressBlogPostsComponent implements OnInit {
     }
 
     for (let i = 0; i < this.blog_posts.length; i++) {
-      analysis["users"] = analysis["users"] + this.blog_posts[i]["users"];
-      analysis["sessions"] = analysis["sessions"] + this.blog_posts[i]["sessions"];
-      analysis["pageviews"] = analysis["pageviews"] + this.blog_posts[i]["pageviews"];
+
+      var users = parseInt(this.blog_posts[i]["users"], 10);
+      console.log(users);
+      if(!isNaN(users)){
+        analysis["users"] = analysis["users"] + users;
+      }
+
+      var sessions = parseInt(this.blog_posts[i]["sessions"], 10);
+      if(!isNaN(sessions)){
+        analysis["sessions"] = analysis["sessions"] + sessions;
+      }
+
+      var pageviews = parseInt(this.blog_posts[i]["pageviews"], 10);
+      if(!isNaN(pageviews)){
+        analysis["pageviews"] = analysis["pageviews"] + pageviews;
+      }
+
+      //analysis["sessions"] = analysis["sessions"] + this.blog_posts[i]["sessions"];
+      //analysis["pageviews"] = analysis["pageviews"] + this.blog_posts[i]["pageviews"];
     }
 
     return analysis;

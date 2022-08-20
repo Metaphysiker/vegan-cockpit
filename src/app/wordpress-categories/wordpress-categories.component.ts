@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./wordpress-categories.component.scss']
 })
 export class WordpressCategoriesComponent implements OnInit {
-  @Input() categories= [];
+  @Input() categories = [];
 
   constructor() { }
 
