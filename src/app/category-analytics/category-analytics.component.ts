@@ -85,25 +85,37 @@ export class CategoryAnalyticsComponent implements OnInit {
 
   }
 
-  fillPieChartDatas() {
+  fillPieChartData(analyses: Analysis[], metric: "users" | "sessions" | "pageviews"): PieChartData {
 
     var labels: string[] = [];
     var data: number[] = [];
-    var text: string = "users";
-    var sorted_array = this.analyses.sort(function(a, b){return b["users"] - a["users"]});
+    console.log()
+    var sorted_array = analyses.sort(function(a, b){return b[metric] - a[metric]});
 
     for (let i = 0; i < sorted_array.length; i++) {
-      labels.push(sorted_array[i]["category_name"] +  ": " + sorted_array[i]["users"]);
-      data.push(sorted_array[i]["users"]);
+      labels.push(sorted_array[i]["category_name"] +  ": " + sorted_array[i][metric]);
+      data.push(sorted_array[i][metric]);
     }
 
-    this.pieChartData = {
+    return {
         labels: labels,
         data: data,
-        text: text
+        text: metric
       }
+  }
 
-      console.log(this.pieChartData);
+  fillPieChartDatas(): void {
+
+    var pie_chart_data_users = this.fillPieChartData(this.analyses, "users");
+    var pie_chart_data_sessions = this.fillPieChartData(this.analyses, "sessions");
+    var pie_chart_data_pageviews = this.fillPieChartData(this.analyses, "pageviews");
+
+      this.pieChartDatas =
+        [
+          pie_chart_data_users,
+          pie_chart_data_sessions,
+          pie_chart_data_pageviews
+        ]
 
 
   }

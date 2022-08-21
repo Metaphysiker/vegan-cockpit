@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { PieChartData } from '../pie-chart-data';
 
 declare const Chart: any;
@@ -9,6 +9,8 @@ declare const Chart: any;
   styleUrls: ['./pie-chart.component.scss']
 })
 export class PieChartComponent implements OnInit {
+
+  @ViewChild('piechart') piechart: any;
 
 
 
@@ -21,12 +23,16 @@ export class PieChartComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.draw_pie()
+    //this.draw_pie()
   }
+
+  ngAfterViewInit() {
+    this.draw_pie()
+}
 
   draw_pie(): void {
 
-    new Chart(document.getElementById("pie-chart"), {
+    new Chart(this.piechart.nativeElement, {
         type: 'pie',
         data: {
           labels: this.pieChartData["labels"],

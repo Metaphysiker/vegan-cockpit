@@ -36,42 +36,28 @@
     </div>
   </div>
 
+  <div *ngIf="this.analysis_status == 'in_progress'">
+    <div class="card text-center my-3">
+      <div class="card-body">
+        Bitte warten - das kann eine Weile dauern.
+      </div>
+      <hr>
+      <div class="d-flex justify-content-center mb-3">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<div *ngIf="this.pieChartData != undefined">
-  <app-pie-chart [pieChartData]="pieChartData"></app-pie-chart>
-</div>
+
+  <div *ngFor="let pieChartData of pieChartDatas">
+    <app-pie-chart [pieChartData]="pieChartData"></app-pie-chart>
+  </div>
+
 
   <div *ngFor="let category of categories">
       <app-wordpress-blog-posts [category]="category" [start_date]="start_date.value.toISOString().slice(0, 10)" [end_date]="end_date.value.toISOString().slice(0, 10)" [data_google_view_id]="data_google_view_id_string" (analysisCompleteEvent)="analysisComplete($event)" ></app-wordpress-blog-posts>
-  </div>
-
-
-  <div *ngIf="this.analysis_status == 'in_progress'">
-    <div class="card text-center my-3">
-      <div class="card-body">
-        Bitte warten - das kann eine Weile dauern.
-      </div>
-      <hr>
-      <div class="d-flex justify-content-center mb-3">
-        <div class="spinner-border" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div *ngIf="this.analysis_status == 'in_progress'">
-    <div class="card text-center my-3">
-      <div class="card-body">
-        Bitte warten - das kann eine Weile dauern.
-      </div>
-      <hr>
-      <div class="d-flex justify-content-center mb-3">
-        <div class="spinner-border" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    </div>
   </div>
 
 
