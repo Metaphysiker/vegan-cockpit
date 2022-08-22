@@ -25,6 +25,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { CategoryAnalyticsAgeComponent } from './category-analytics-age/category-analytics-age.component';
 import { WordpressBlogPostsAgeComponent } from './wordpress-blog-posts-age/wordpress-blog-posts-age.component';
 import { TableComponent } from './table/table.component';
+import { PayrexxComponent } from './payrexx/payrexx.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { TableComponent } from './table/table.component';
     NavbarComponent,
     CategoryAnalyticsAgeComponent,
     WordpressBlogPostsAgeComponent,
-    TableComponent
+    TableComponent,
+    PayrexxComponent
   ],
   imports: [
     BrowserModule,
