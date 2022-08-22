@@ -56,7 +56,8 @@ export class WordpressBlogPostsAgeComponent implements OnInit {
 
     for (let i = 0; i < this.blog_posts.length; i++) {
 
-
+      console.log("getTotals");
+      console.log(this.blog_posts[i]["65+"]);
 
       analysis["18-24"] += parseInt(this.blog_posts[i]["18-24"], 10);
       analysis["25-34"] += parseInt(this.blog_posts[i]["25-34"], 10);
