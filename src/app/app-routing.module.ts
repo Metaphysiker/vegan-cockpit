@@ -4,10 +4,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { AgeBracketComponent } from './age-bracket/age-bracket.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { CategoryAnalyticsComponent } from './category-analytics/category-analytics.component';
+import { CategoryAnalyticsAgeComponent } from './category-analytics-age/category-analytics-age.component';
 
 const routes: Routes = [
   { path: 'welcome', component: WelcomeComponent },
   { path: 'category-analytics', component: CategoryAnalyticsComponent },
+  { path: 'category-analytics-age', component: CategoryAnalyticsAgeComponent },
   { path: 'age-bracket', component: AgeBracketComponent },
   { path: '', component: WelcomeComponent },
   { path: '**', component: WelcomeComponent },

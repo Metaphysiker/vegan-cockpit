@@ -156,8 +156,6 @@ export class CategoryAnalyticsComponent implements OnInit {
       //console.log(response);
     });
 
-
-
   }
 
 }

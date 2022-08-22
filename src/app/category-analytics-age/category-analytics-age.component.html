@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="card my-3">
+    <div class="card-body">
+
+      <h5 class="card-title">Optionen</h5>
+
+      <div class="row">
+        <div class="col-6">
+          <input matInput [matDatepicker]="picker" [formControl]="start_date">
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <br>
+          <mat-hint>DD/MM/YYYY</mat-hint>
+        </div>
+        <div class="col-6">
+          <input matInput [matDatepicker]="picker2" [formControl]="end_date">
+          <mat-datepicker #picker2></mat-datepicker>
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <br>
+          <mat-hint>DD/MM/YYYY</mat-hint>
+        </div>
+      </div>
+
+
+
+      <div *ngIf="this.analysis_status == 'idle'">
+        <button type="button" (click)="startAnalysis()" class="btn btn-primary my-2">Starten</button>
+      </div>
+
+      <p>
+        <span class="badge rounded-pill bg-info text-dark">
+            Status: {{this.analysis_status}}
+        </span>
+      </p>
+
+    </div>
+  </div>
+
+  <div *ngIf="this.analysis_status == 'in_progress'">
+    <div class="card text-center my-3">
+      <div class="card-body">
+        Bitte warten - das kann eine Weile dauern.
+      </div>
+      <hr>
+      <div class="d-flex justify-content-center mb-3">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngFor="let category of categories">
+      <app-wordpress-blog-posts-age [category]="category" [start_date]="start_date.value.toISOString().slice(0, 10)" [end_date]="end_date.value.toISOString().slice(0, 10)" [data_google_view_id]="data_google_view_id_string" (analysisCompleteEvent)="analysisComplete($event)" ></app-wordpress-blog-posts-age>
+  </div>
+
+
+
+
+
+</div>

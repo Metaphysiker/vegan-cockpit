@@ -5,11 +5,11 @@ import { WordpressService } from '../wordpress.service';
 import { Analysis } from '../analysis';
 
 @Component({
-  selector: 'app-wordpress-blog-posts',
-  templateUrl: './wordpress-blog-posts.component.html',
-  styleUrls: ['./wordpress-blog-posts.component.scss']
+  selector: 'app-wordpress-blog-posts-age',
+  templateUrl: './wordpress-blog-posts-age.component.html',
+  styleUrls: ['./wordpress-blog-posts-age.component.scss']
 })
-export class WordpressBlogPostsComponent implements OnInit {
+export class WordpressBlogPostsAgeComponent implements OnInit {
 
   @Input() blog_posts: any = [];
 
@@ -23,7 +23,8 @@ export class WordpressBlogPostsComponent implements OnInit {
 
   constructor(
     private googleAnalyticsService: GoogleAnalyticsService,
-    private wordpressService: WordpressService) { }
+    private wordpressService: WordpressService
+  ) { }
 
   ngOnInit(): void {
 
@@ -33,14 +34,6 @@ export class WordpressBlogPostsComponent implements OnInit {
         console.log("iterate fini fini fini finished");
         this.analysisComplete();
       });
-
-  }
-
-  ngOnChanges():void {
-
-    //console.log("CHANGE IS HAPPENING!");
-
-    //this.iterateOverBlogPostsAndGetGoogleData().then((response: any) => console.log("finished"));
 
   }
 
@@ -139,12 +132,14 @@ export class WordpressBlogPostsComponent implements OnInit {
           p = p.then(() => new Promise(function(second_resolve, second_reject) {
 
             self.getGoogleDataAndUpdate(self.blog_posts[i]["slug"]).then((result: any) => {
+              //self.blog_posts[i] = result;
 
-              self.blog_posts[i]["users"] = result["users"];
-              self.blog_posts[i]["sessions"] = result["sessions"];
-              self.blog_posts[i]["pageviews"] = result["pageviews"];
+              self.blog_posts[i] = {
+                                        ...self.blog_posts[i],
+                                        ...result
+                                    }
 
-              self.blog_posts = self.blog_posts.sort((a: any, b: any) => b.users - a.users);
+              //self.blog_posts = self.blog_posts.sort((a: any, b: any) => b.users - a.users);
 
               second_resolve();
 
@@ -168,7 +163,7 @@ export class WordpressBlogPostsComponent implements OnInit {
     return new Promise(function(resolve, reject)
     {
 
-      self.googleAnalyticsService.getDataFromGoogle(
+      self.googleAnalyticsService.getDataFromGoogleWithUserAgeBracketDimension(
         self.data_google_view_id,
           {
             startDate: self.start_date,
@@ -178,17 +173,35 @@ export class WordpressBlogPostsComponent implements OnInit {
         function(response: any) {
           //let data_rows = {users: 0, sessions: 0, pageviews: 0}
 
-          let data_rows = {
-            users: response?.result?.reports?.[0].data?.rows?.[0]?.metrics[0]?.values[0],
-            sessions: response?.result?.reports?.[0].data?.rows?.[0]?.metrics[0]?.values[1],
-            pageviews: response?.result?.reports?.[0].data?.rows?.[0]?.metrics[0]?.values[2]
+          var rows = response?.result?.reports?.[0].data?.rows;
+
+          var data_rows: any = {
+            "18-24": 0,
+            "25-34": 0,
+            "35-44": 0,
+            "45-54": 0,
+            "55-64": 0,
+            "65+": 0
+          };
+
+          if(typeof rows !== "undefined") {
+            for (let i = 0; i < rows.length; i++) {
+              // get name of dimension, e.g. 18-24
+              var dimension = rows[i]["dimensions"][0]
+
+              //get metric, e.g. 15
+              var metric = rows[i]["metrics"][0]["values"][0]
+
+              data_rows[dimension] = metric
+            }
           }
 
+          console.log(data_rows);
+          console.log(data_rows['18-24']);
+          console.log(data_rows['25-34']);
           resolve(data_rows);
         })
         });
-
-
   }
 
 }

@@ -101,12 +101,6 @@ export class GoogleAnalyticsService {
               metrics: [
                 {
                   expression: 'ga:users'
-                },
-                {
-                  expression: 'ga:sessions'
-                },
-                {
-                  expression: 'ga:uniquePageviews'
                 }
               ],
               "dimensions": [
