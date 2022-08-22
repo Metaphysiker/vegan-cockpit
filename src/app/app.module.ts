@@ -20,6 +20,8 @@ import { WordpressCategoriesComponent } from './wordpress-categories/wordpress-c
 import { WordpressBlogPostComponent } from './wordpress-blog-post/wordpress-blog-post.component';
 import { WordpressBlogPostsComponent } from './wordpress-blog-posts/wordpress-blog-posts.component';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
+import { AgeBracketComponent } from './age-bracket/age-bracket.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { PieChartComponent } from './pie-chart/pie-chart.component';
     WordpressCategoriesComponent,
     WordpressBlogPostComponent,
     WordpressBlogPostsComponent,
-    PieChartComponent
+    PieChartComponent,
+    AgeBracketComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

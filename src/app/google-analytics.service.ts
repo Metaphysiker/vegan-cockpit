@@ -84,4 +84,62 @@ export class GoogleAnalyticsService {
   	})
   }
 
+
+  getDataFromGoogleWithUserAgeBracketDimension(view_id: any, dateRange: any, relative_url:any): any {
+
+  return new Promise(function(resolve, reject)
+    {
+      gapi.client.request({
+        path: '/v4/reports:batchGet',
+        root: 'https://analyticsreporting.googleapis.com/',
+        method: 'POST',
+        body: {
+          reportRequests: [
+            {
+              viewId: view_id,
+              dateRanges: [dateRange],
+              metrics: [
+                {
+                  expression: 'ga:users'
+                },
+                {
+                  expression: 'ga:sessions'
+                },
+                {
+                  expression: 'ga:uniquePageviews'
+                }
+              ],
+              "dimensions": [
+              {
+                "name":"ga:userAgeBracket"
+              }],
+              "dimensionFilterClauses": [
+               {
+                "filters": [
+                {
+                 //"operator": "REGEXP",
+                 //https://developers.google.com/analytics/devguides/reporting/core/v4/rest/v4/reports/batchGet
+                 "operator": "REGEXP",
+                 "dimensionName": "ga:pagePath",
+                 "expressions": [
+                   relative_url
+                  ]
+                }
+                ]
+               }
+              ]
+            }
+          ]
+        }
+      }).then(function(response: any){
+        //return response;
+        resolve(response);
+      },
+      function(error: any){
+        resolve(error);
+      }
+    )
+    })
+  }
+
 }
