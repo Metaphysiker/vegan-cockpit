@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'category-analytics', component: CategoryAnalyticsComponent },
   { path: 'age-bracket', component: AgeBracketComponent },
   { path: '', component: WelcomeComponent },
+  { path: '**', component: WelcomeComponent },
 ];
 
 @NgModule({
