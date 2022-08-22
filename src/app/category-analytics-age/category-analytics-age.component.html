@@ -35,6 +35,9 @@
 
     </div>
   </div>
+  <app-table></app-table>
+  <app-table [rows]="rows_for_tables" ></app-table>
+
 
   <div *ngIf="this.analysis_status == 'in_progress'">
     <div class="card text-center my-3">

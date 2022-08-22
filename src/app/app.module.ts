@@ -24,6 +24,7 @@ import { AgeBracketComponent } from './age-bracket/age-bracket.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CategoryAnalyticsAgeComponent } from './category-analytics-age/category-analytics-age.component';
 import { WordpressBlogPostsAgeComponent } from './wordpress-blog-posts-age/wordpress-blog-posts-age.component';
+import { TableComponent } from './table/table.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { WordpressBlogPostsAgeComponent } from './wordpress-blog-posts-age/wordp
     AgeBracketComponent,
     NavbarComponent,
     CategoryAnalyticsAgeComponent,
-    WordpressBlogPostsAgeComponent
+    WordpressBlogPostsAgeComponent,
+    TableComponent
   ],
   imports: [
     BrowserModule,

@@ -26,6 +26,8 @@ export class CategoryAnalyticsAgeComponent implements OnInit {
 
   categories:any[] = []
 
+  rows_for_tables: any = []
+
   categories_to_be_done:any[] = []
 
   categories_length: number = 0;
@@ -54,13 +56,22 @@ export class CategoryAnalyticsAgeComponent implements OnInit {
 
     this.wordpressService.getCategories()
     .subscribe((response: any) => {
-      this.categories_length = response.length;
+      this.categories_length = 1;
+
+    //  this.categories_length = response.length;
       this.categories_to_be_done = response;
 
       this.categories.push(this.categories_to_be_done.shift());
 
     });
 
+  }
+
+  fillRows():void {
+
+    for (let i = 0; i < this.analyses.length; i++) {
+      this.rows_for_tables.push(Object.values(this.analyses[i]));
+    }
   }
 
   analysisComplete(analysis: AgeAnalysis){
@@ -75,6 +86,7 @@ export class CategoryAnalyticsAgeComponent implements OnInit {
     if(this.analyses.length == this.categories_length) {
       this.analysis_status = "finished";
       console.log("ANALYSIS FINISHED");
+      this.fillRows();
       //this.fillPieChartDatas();
     } else {
       this.categories.push(this.categories_to_be_done.shift());
