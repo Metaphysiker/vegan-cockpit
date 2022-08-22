@@ -67,8 +67,8 @@ export class CategoryAnalyticsAgeComponent implements OnInit {
     this.wordpressService.getCategories()
     .subscribe((response: any) => {
 
-      this.categories_length = 3;
-      //this.categories_length = response.length;
+      //this.categories_length = 3;
+      this.categories_length = response.length;
       this.categories_to_be_done = response;
 
       this.categories.push(this.categories_to_be_done.shift());
