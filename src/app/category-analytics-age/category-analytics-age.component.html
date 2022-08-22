@@ -35,8 +35,10 @@
 
     </div>
   </div>
-  <app-table></app-table>
-  <app-table [headers]="rows_for_table_headers" [rows]="rows_for_table" ></app-table>
+
+  <div *ngIf="rows_for_table.length > 0">
+    <app-table [headers]="rows_for_table_headers" [rows]="rows_for_table" ></app-table>
+  </div>
 
 
   <div *ngIf="this.analysis_status == 'in_progress'">
@@ -57,9 +59,5 @@
   <div *ngFor="let category of categories">
       <app-wordpress-blog-posts-age [category]="category" [start_date]="start_date.value.toISOString().slice(0, 10)" [end_date]="end_date.value.toISOString().slice(0, 10)" [data_google_view_id]="data_google_view_id_string" (analysisCompleteEvent)="analysisComplete($event)" ></app-wordpress-blog-posts-age>
   </div>
-
-
-
-
 
 </div>

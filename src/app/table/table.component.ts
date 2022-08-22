@@ -11,7 +11,7 @@ export class TableComponent implements OnInit {
     "a", "b", "c"
   ]
 
-  @Input() rows: any[] = 
+  @Input() rows: any[] =
     [
       {a: "123", b: "234", c: "345"},
       {a: "456", b: "567", c: "678"},
@@ -21,6 +21,12 @@ export class TableComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  sort(key: any): void {
+    this.rows.sort((a, b) => {
+      return b[key] - a[key]
+    });
   }
 
 }

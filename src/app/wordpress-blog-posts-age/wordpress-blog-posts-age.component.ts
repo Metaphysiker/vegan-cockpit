@@ -21,6 +21,17 @@ export class WordpressBlogPostsAgeComponent implements OnInit {
   @Input() end_date: string = "Missing";
   @Input() data_google_view_id: string = "Missing";
 
+  rows_for_table_headers: any = [
+    "title",
+    "slug",
+    "18-24",
+    "25-34",
+    "35-44",
+    "45-54",
+    "55-64",
+    "65+"
+  ];
+
   constructor(
     private googleAnalyticsService: GoogleAnalyticsService,
     private wordpressService: WordpressService
@@ -55,9 +66,6 @@ export class WordpressBlogPostsAgeComponent implements OnInit {
     }
 
     for (let i = 0; i < this.blog_posts.length; i++) {
-
-      console.log("getTotals");
-      console.log(this.blog_posts[i]["65+"]);
 
       analysis["18-24"] += parseInt(this.blog_posts[i]["18-24"], 10);
       analysis["25-34"] += parseInt(this.blog_posts[i]["25-34"], 10);
@@ -133,8 +141,12 @@ export class WordpressBlogPostsAgeComponent implements OnInit {
 
               self.blog_posts[i] = {
                                         ...self.blog_posts[i],
-                                        ...result
+                                        ...result,
+                                        title: self.blog_posts[i]["title"]["rendered"]
                                     }
+
+              console.log("self blog post");
+              console.log(self.blog_posts[i]);
 
               //self.blog_posts = self.blog_posts.sort((a: any, b: any) => b.users - a.users);
 
