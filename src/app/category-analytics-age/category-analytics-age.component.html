@@ -36,7 +36,7 @@
     </div>
   </div>
   <app-table></app-table>
-  <app-table [rows]="rows_for_tables" ></app-table>
+  <app-table [headers]="rows_for_table_headers" [rows]="rows_for_table" ></app-table>
 
 
   <div *ngIf="this.analysis_status == 'in_progress'">

@@ -26,7 +26,17 @@ export class CategoryAnalyticsAgeComponent implements OnInit {
 
   categories:any[] = []
 
-  rows_for_tables: any = []
+  rows_for_table_headers: any = [
+    "category_name",
+    "18-24",
+    "25-34",
+    "35-44",
+    "45-54",
+    "55-64",
+    "65"
+  ];
+
+  rows_for_table: any = []
 
   categories_to_be_done:any[] = []
 
@@ -56,9 +66,9 @@ export class CategoryAnalyticsAgeComponent implements OnInit {
 
     this.wordpressService.getCategories()
     .subscribe((response: any) => {
-      this.categories_length = 1;
 
-    //  this.categories_length = response.length;
+      //this.categories_length = 1;
+      this.categories_length = response.length;
       this.categories_to_be_done = response;
 
       this.categories.push(this.categories_to_be_done.shift());
@@ -69,9 +79,7 @@ export class CategoryAnalyticsAgeComponent implements OnInit {
 
   fillRows():void {
 
-    for (let i = 0; i < this.analyses.length; i++) {
-      this.rows_for_tables.push(Object.values(this.analyses[i]));
-    }
+    this.rows_for_table = this.analyses;
   }
 
   analysisComplete(analysis: AgeAnalysis){
