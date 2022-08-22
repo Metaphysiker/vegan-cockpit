@@ -4,7 +4,7 @@ import {FormControl} from '@angular/forms';
 import { GoogleAnalyticsService } from '../google-analytics.service';
 import { WordpressService } from '../wordpress.service';
 
-import { Analysis } from '../analysis';
+import { AgeAnalysis } from '../age-analysis';
 import { PieChartData } from '../pie-chart-data';
 
 @Component({
@@ -30,7 +30,7 @@ export class CategoryAnalyticsAgeComponent implements OnInit {
 
   categories_length: number = 0;
 
-  analyses: Analysis[] = []
+  analyses: AgeAnalysis[] = []
 
   pieChartDatas: PieChartData[] = []
   pieChartData: PieChartData | undefined;
@@ -63,7 +63,7 @@ export class CategoryAnalyticsAgeComponent implements OnInit {
 
   }
 
-  analysisComplete(analysis: Analysis){
+  analysisComplete(analysis: AgeAnalysis){
     console.log(analysis);
     this.analyses.push(analysis);
     console.log("this.analyses: ");

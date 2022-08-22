@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GoogleAnalyticsService } from '../google-analytics.service';
 import { WordpressService } from '../wordpress.service';
 
-import { Analysis } from '../analysis';
+import { AgeAnalysis } from '../age-analysis';
 
 @Component({
   selector: 'app-wordpress-blog-posts-age',
@@ -13,7 +13,7 @@ export class WordpressBlogPostsAgeComponent implements OnInit {
 
   @Input() blog_posts: any = [];
 
-  @Output() analysisCompleteEvent = new EventEmitter<Analysis>();
+  @Output() analysisCompleteEvent = new EventEmitter<AgeAnalysis>();
 
   @Input() category: any = {id: 0, name: "Default"};
 
@@ -41,33 +41,29 @@ export class WordpressBlogPostsAgeComponent implements OnInit {
     this.analysisCompleteEvent.emit(this.getTotals())
   }
 
-  getTotals(): Analysis {
+  getTotals(): AgeAnalysis {
 
-    var analysis: Analysis = {
+    var analysis: AgeAnalysis = {
       category_id: this.category["id"],
       category_name: this.category["name"],
-      users: 0,
-      sessions: 0,
-      pageviews: 0
+      "18-24": 0,
+      "25-34": 0,
+      "35-44": 0,
+      "45-54": 0,
+      "55-64": 0,
+      "65": 0,
     }
 
     for (let i = 0; i < this.blog_posts.length; i++) {
 
-      var users = parseInt(this.blog_posts[i]["users"], 10);
-      console.log(users);
-      if(!isNaN(users)){
-        analysis["users"] = analysis["users"] + users;
-      }
 
-      var sessions = parseInt(this.blog_posts[i]["sessions"], 10);
-      if(!isNaN(sessions)){
-        analysis["sessions"] = analysis["sessions"] + sessions;
-      }
 
-      var pageviews = parseInt(this.blog_posts[i]["pageviews"], 10);
-      if(!isNaN(pageviews)){
-        analysis["pageviews"] = analysis["pageviews"] + pageviews;
-      }
+      analysis["18-24"] += parseInt(this.blog_posts[i]["18-24"], 10);
+      analysis["25-34"] += parseInt(this.blog_posts[i]["25-34"], 10);
+      analysis["35-44"] += parseInt(this.blog_posts[i]["35-44"], 10);
+      analysis["45-54"] += parseInt(this.blog_posts[i]["45-54"], 10);
+      analysis["55-64"] += parseInt(this.blog_posts[i]["55-64"], 10);
+      analysis["65"] += parseInt(this.blog_posts[i]["65+"], 10);
 
       //analysis["sessions"] = analysis["sessions"] + this.blog_posts[i]["sessions"];
       //analysis["pageviews"] = analysis["pageviews"] + this.blog_posts[i]["pageviews"];
