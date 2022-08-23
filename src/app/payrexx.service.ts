@@ -50,7 +50,15 @@ export class PayrexxService {
 
     console.log(url);
     console.log(encodeURI(queryStr));
-    return this.http.post(url, queryParams, httpOptions)
+    //return this.http.post(url, queryParams, httpOptions)
+    //return this.http.get(url, httpOptions)
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+
+    return this.http.get(url)
+
 
 
   }
