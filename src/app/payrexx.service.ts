@@ -49,7 +49,7 @@ export class PayrexxService {
         var apiSignature = self.buildSignature(encodedParams.toString())
         console.log(apiSignature);
 
-        const url = 'https://cors-anywhere.herokuapp.com/api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz' + "&ApiSignature=" + apiSignature + "&" + encodedParams.toString();
+        const url = 'https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz' + "&ApiSignature=" + apiSignature + "&" + encodedParams.toString();
         console.log("url: ")
         console.log(url)
         const options = {
