@@ -37,6 +37,42 @@ export class PayrexxService {
 
     var self = this;
 
+        const encodedParams = new URLSearchParams();
+
+        encodedParams.set('orderByTime', 'ASC');
+        encodedParams.set('filterDatetimeUtcGreaterThan', '2022-01-01 00:00:00');
+        encodedParams.set('filterDatetimeUtcLessThan', '2022-08-01 00:00:00');
+        encodedParams.set('limit', limit.toString()); // ACHTUNG - vielleicht braucht es hier String
+        encodedParams.set('offset', offset.toString() ); //Achtung vielleicht String
+        console.log(encodedParams.toString());
+
+        var apiSignature = self.buildSignature(encodedParams.toString())
+        console.log(apiSignature);
+
+        const url = 'https://cors-anywhere.herokuapp.com/api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz' + "&ApiSignature=" + apiSignature + "&" + encodedParams.toString();
+        console.log("url: ")
+        console.log(url)
+        const options = {
+          method: 'GET',
+          mode: 'cors',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: encodedParams
+        };
+
+
+        return this.http.get<any>(url);
+
+
+  }
+
+  getPayrexxTransactionsBatch5(offset = 0, limit = 100): any {
+    console.log("get Batch")
+
+    var self = this;
+
     return new Promise(function(final_resolve, final_reject){
 
         const encodedParams = new URLSearchParams();
@@ -56,12 +92,16 @@ export class PayrexxService {
         console.log(url)
         const options = {
           method: 'GET',
+          mode: 'cors',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/x-www-form-urlencoded'
           },
           body: encodedParams
         };
+
+
+
 
         fetch(url)
           .then((res: any) => {
@@ -88,14 +128,9 @@ export class PayrexxService {
     var limit = 100;
 
     this.getPayrexxTransactionsBatch(offset, limit)
-      .then((transactions: any) => {
-
-        offset++;
-        console.log(offset);
-        console.log(this.transactions.length);
-
-
-      })
+    .subscribe((response: any) => {
+      console.log(response);
+    })
 
 
 
