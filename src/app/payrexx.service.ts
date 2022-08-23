@@ -68,10 +68,12 @@ export class PayrexxService {
           .then(json => {
             console.log(json);
             self.transactions = [
-              ...self.transactions,
+              ...self.transactions["data"],
               ...json
             ];
             console.log(self.transactions);
+            console.log("Data:");
+            console.log(self.transactions["data"]);
             final_resolve(json);
           })
           .catch(err => final_reject(err));
@@ -83,7 +85,7 @@ export class PayrexxService {
   getPayrexxTransactions(): any {
 
     console.log("getPayrexxTransactions");
-    
+
     var offset = 0;
     var limit = 100;
 
