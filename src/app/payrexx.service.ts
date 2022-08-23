@@ -82,6 +82,8 @@ export class PayrexxService {
 
   getPayrexxTransactions(): any {
 
+    console.log("getPayrexxTransactions");
+    
     var offset = 0;
     var limit = 100;
 
