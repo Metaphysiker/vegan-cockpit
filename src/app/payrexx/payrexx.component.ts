@@ -18,7 +18,7 @@ export class PayrexxComponent implements OnInit {
     console.log("payrexx");
     //this.payrexxService.getPayrexxTransactions();
 
-    this.payrexxService.getPayrexxTransactions();
+    console.log(this.payrexxService.getPayrexxTransactions());
     //.subscribe((response: any) => {
     //  console.log(response);
     //});
