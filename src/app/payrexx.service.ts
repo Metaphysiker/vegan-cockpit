@@ -9,6 +9,7 @@ import { catchError, retry } from 'rxjs/operators';
 //declare const base64: any;
 declare const CryptoJS: any;
 declare const Qs: any;
+//declare const fetch: any;
 //import CryptoJS from 'crypto-js';
 
 
@@ -30,12 +31,64 @@ export class PayrexxService {
   }
 
   getPayrexxTransactions(): any {
+
+    //const { URLSearchParams } = require('url');
+    //const fetch = require('node-fetch');
+    const encodedParams = new URLSearchParams();
+
+    //encodedParams.set('filterMyTransactionsOnly', 'false');
+    encodedParams.set('orderByTime', 'ASC');
+    encodedParams.set('filterDatetimeUtcGreaterThan', '2022-01-01 00:00:00');
+    encodedParams.set('filterDatetimeUtcLessThan', '2022-08-01 00:00:00');
+    encodedParams.set('limit', '100');
+    encodedParams.set('offset', '0');
+
+    console.log(encodedParams.toString());
+
+    var apiSignature = this.buildSignature(encodedParams.toString())
+    console.log(apiSignature);
+
+    const url = 'https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz' + "&ApiSignature=" + apiSignature + "&" + encodedParams.toString();
+    console.log("url: ")
+    console.log(url)
+    const options = {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }//,
+      //body: encodedParams
+    };
+
+    fetch(url, options)
+      .then(res => res.json())
+      .then(json => console.log(json))
+      .catch(err => console.error('error:' + err));
+
+  }
+
+  getPayrexxTransactions12(): any {
+
+    //works:
+    //      model: "Page",
+    //      id: 17,
+    //      limit: 100,
+
     let params: any = {
-      model: "Page",
-      id: 17,
+      orderByTime: 'ASC',
+      //filterDatetimeUtcGreaterThan: "2021-02-05 11:04:04",
+      //filterDatetimeUtcLessThan: '2022-01-01 00:00:00',
+      limit: 100,
     }
+
     let queryParams = Object.assign({}, params)
-    const queryStr = Qs.stringify(queryParams)
+    var queryStr = Qs.stringify(queryParams)
+
+    console.log("queryStr")
+    console.log(queryStr)
+
+    queryStr = encodeURI(queryStr);
+
     let apiSignature = this.buildSignature(queryStr)
     queryParams.ApiSignature = apiSignature
 
@@ -46,16 +99,15 @@ export class PayrexxService {
       headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
     };
 
-    var url = "https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz&" + encodeURI(queryStr) +"&ApiSignature=" + apiSignature;
+    //var url = "https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz&" + encodeURI(queryStr) +"&ApiSignature=" + apiSignature;
+    // url = "https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz&" + encodeURI(queryStr) +"&ApiSignature=" + apiSignature;
 
+    var url = "https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz&" + queryStr +"&ApiSignature=" + apiSignature;
+
+    console.log("FINAL URL: ");
     console.log(url);
-    console.log(encodeURI(queryStr));
     //return this.http.post(url, queryParams, httpOptions)
     //return this.http.get(url, httpOptions)
-
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => console.log(data));
 
     return this.http.get(url)
 
@@ -84,6 +136,7 @@ export class PayrexxService {
     .then(response => response.json())
     .then(response => console.log(response))
     .catch(err => console.error(err));
+
   }
 
   getPayrexxTransactions9(): any {
@@ -151,8 +204,10 @@ export class PayrexxService {
   }
 
   buildSignature (query = '') {
-    console.log(this.payrexxapikey_string);
+    //console.log(this.payrexxapikey_string);
     return CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA256(query, this.payrexxapikey_string))
+    //return CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA256('', this.payrexxapikey_string))
+
   }
 
 
