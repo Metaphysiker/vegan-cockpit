@@ -8,6 +8,7 @@ import { catchError, retry } from 'rxjs/operators';
 //declare const hmacSHA256: any;
 //declare const base64: any;
 declare const CryptoJS: any;
+declare const Qs: any;
 //import CryptoJS from 'crypto-js';
 
 
@@ -16,13 +17,38 @@ declare const CryptoJS: any;
 })
 export class PayrexxService {
 
-  payrexxapikey = "UtHq3p0TYZEQCOnBN2bsft5gEeWpTj";
+  payrexxapikey = "23zkRkQAjcjlJdENtbysNI2lueYRIM";
 
   constructor(
     private http: HttpClient
   ) { }
 
   getPayrexxTransactions(): any {
+    let params: any = {
+      model: "Page",
+      id: 17,
+    }
+    let queryParams = Object.assign({}, params)
+    const queryStr = Qs.stringify(queryParams)
+    let apiSignature = this.buildSignature(queryStr)
+    queryParams["ApiSignature"] = apiSignature
+
+    //queryParams.ApiSignature = this.buildSignature(queryStr)
+    console.log(queryParams)
+
+    let httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
+    };
+
+    var url = "https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz&ApiSignature=" + apiSignature;
+
+    console.log(url);
+    return this.http.post(url, queryParams, httpOptions)
+
+
+  }
+
+  getPayrexxTransactions5(): any {
     const options = {
       method: 'POST',
       headers: {
@@ -45,7 +71,8 @@ export class PayrexxService {
     .catch(err => console.error(err));
   }
 
-  getPayrexxTransactions2(): any {
+  getPayrexxTransactions9(): any {
+
 
     let params = new HttpParams({
      fromObject: {
@@ -55,18 +82,20 @@ export class PayrexxService {
      }
    });
 
+   let params_query = "orderByTime=ASC&filterMyTransactionsOnly=false";
+
    let httpOptions = {
      headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
    };
 
-    var apiSignature = this.buildSignature(params.toString());
+    var apiSignature = this.buildSignature(params_query);
 
     //var url = "https://api.payrexx.com/v1.0/SignatureCheck/?instance=veganegesellschaftschweiz&ApiSignature=" + apiSignature;
 
-    var url = 'https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz&ApiSignature=' + apiSignature;
+    var url = 'https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz&ApiSignature=' + apiSignature + "?" + params_query;
 
     console.log(url);
-    return this.http.post(url, params.toString(), httpOptions)
+    return this.http.get<any>(url)
     //return this.http.get<any>(url);
 
 
