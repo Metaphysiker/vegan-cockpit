@@ -64,19 +64,17 @@ export class PayrexxService {
         };
 
         fetch(url)
-          .then(res => res.json())
-          .then(json => {
-            console.log(json);
+          .then((res: any) => {
+            console.log(res);
             self.transactions = [
-              ...self.transactions["data"],
-              ...json
+              ...self.transactions,
+              ...res["data"]
             ];
             console.log(self.transactions);
             console.log("Data:");
-            console.log(self.transactions["data"]);
-            final_resolve(json);
-          })
-          .catch(err => final_reject(err));
+            console.log(res["data"]);
+            final_resolve(res["data"]);
+          });
 
      })
 
@@ -95,21 +93,6 @@ export class PayrexxService {
         offset++;
         console.log(offset);
         console.log(this.transactions.length);
-
-        while ( offset * limit == this.transactions.length) {
-          this.getPayrexxTransactionsBatch(offset, limit)
-            .then((transactions: any) => {
-              offset++;
-              console.log(offset);
-              console.log(limit);
-              console.log(this.transactions.length);
-            },
-            (error: any) => {
-              offset++;
-            }
-          )
-        }
-
 
 
       })
