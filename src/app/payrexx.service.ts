@@ -31,7 +31,7 @@ export class PayrexxService {
     let queryParams = Object.assign({}, params)
     const queryStr = Qs.stringify(queryParams)
     let apiSignature = this.buildSignature(queryStr)
-    queryParams["ApiSignature"] = apiSignature
+    queryParams.ApiSignature = apiSignature
 
     //queryParams.ApiSignature = this.buildSignature(queryStr)
     console.log(queryParams)
@@ -40,9 +40,10 @@ export class PayrexxService {
       headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
     };
 
-    var url = "https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz&ApiSignature=" + apiSignature;
+    var url = "https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz&" + encodeURI(queryStr) +"&ApiSignature=" + apiSignature;
 
     console.log(url);
+    console.log(encodeURI(queryStr));
     return this.http.post(url, queryParams, httpOptions)
 
 
