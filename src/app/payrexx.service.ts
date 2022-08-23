@@ -56,8 +56,8 @@ export class PayrexxService {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded'
-      }//,
-      //body: encodedParams
+      },
+      body: encodedParams
     };
 
     fetch(url, options)
