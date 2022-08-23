@@ -16,7 +16,12 @@ export class PayrexxComponent implements OnInit {
 
   ngOnInit(): void {
     console.log("payrexx");
+    //this.payrexxService.getPayrexxTransactions();
+
     this.payrexxService.getPayrexxTransactions();
+    //.subscribe((response: any) => {
+    //  console.log(response);
+    //});
   }
 
 }
