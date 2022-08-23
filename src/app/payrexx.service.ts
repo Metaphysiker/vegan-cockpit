@@ -17,11 +17,17 @@ declare const Qs: any;
 })
 export class PayrexxService {
 
-  payrexxapikey = "23zkRkQAjcjlJdENtbysNI2lueYRIM";
+  //payrexxapikey = "23zkRkQAjcjlJdENtbysNI2lueYRIM";
+  payrexxapikey = document.querySelector('#data-payrexx-api-key');
+  payrexxapikey_string: string = "";
 
   constructor(
     private http: HttpClient
-  ) { }
+  ) {
+    if(this.payrexxapikey != null){
+      this.payrexxapikey_string = this.payrexxapikey.innerHTML.trim();
+    }
+  }
 
   getPayrexxTransactions(): any {
     let params: any = {
@@ -137,7 +143,8 @@ export class PayrexxService {
   }
 
   buildSignature (query = '') {
-    return CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA256(query, this.payrexxapikey))
+    console.log(this.payrexxapikey_string);
+    return CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA256(query, this.payrexxapikey_string))
   }
 
 
