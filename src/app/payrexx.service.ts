@@ -40,17 +40,12 @@ export class PayrexxService {
   getPayrexxTransactionsBatch(): any {
     var self = this;
     console.log("get Batch");
-    var url = "http://localhost/wp-json/vegan_cockpit/v1/get_payrexx_transactions/"+ this.offset + "/" + this.limit + "/" + this.startdate + "/" + this.enddate;
+    var url = "http://localhost/wp-json/vegan_cockpit/v1/get_payrexx_transactions/"+ this.offset + "/" + this.limit + "/" + this.startdate + "/" + this.enddate + "?_wpnonce=" + this.wordpress_nonce;
     console.log(url);
 
     return new Promise(function(final_resolve, final_reject){
 
-      fetch(url, {
-          headers: {
-            'Content-Type': 'application/json',
-            'X-WP-Nonce' : self.wordpress_nonce
-        }
-      })
+      fetch(url)
       .then((response: any) => response.json())
       .then((data: any) => {
 
