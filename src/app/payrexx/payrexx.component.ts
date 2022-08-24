@@ -10,6 +10,7 @@ import { PayrexxService } from '../payrexx.service';
 })
 export class PayrexxComponent implements OnInit {
   transactions: any = []
+  headers_for_transactions: any = ["amount", "id", "status"]
 
   constructor(
     private payrexxService: PayrexxService
@@ -18,9 +19,14 @@ export class PayrexxComponent implements OnInit {
   ngOnInit(): void {
     console.log("payrexx");
     //this.payrexxService.getPayrexxTransactions();
-    this.transactions = this.payrexxService.getPayrexxTransactions();
-    console.log(this.transactions);
-    console.log(this.transactions["data"])
+    //this.transactions = this.payrexxService.getPayrexxTransactions();
+    console.log("getPayrexxTransactions in component");
+    //console.log(this.payrexxService.getPayrexxTransactions())
+
+    this.payrexxService.getPayrexxTransactions()
+    .then((response: any) => {
+      this.transactions = response;
+    });
     //.subscribe((response: any) => {
     //  console.log(response);
     //});

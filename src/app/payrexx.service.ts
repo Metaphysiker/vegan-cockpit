@@ -41,7 +41,7 @@ export class PayrexxService {
 
         encodedParams.set('orderByTime', 'ASC');
         encodedParams.set('filterDatetimeUtcGreaterThan', '2022-01-01 00:00:00');
-        encodedParams.set('filterDatetimeUtcLessThan', '2022-06-20 00:00:00');
+        encodedParams.set('filterDatetimeUtcLessThan', '2022-08-01 00:00:00');
         encodedParams.set('offset', offset.toString() ); //Achtung vielleicht String
         encodedParams.set('limit', limit.toString()); // ACHTUNG - vielleicht braucht es hier String
         console.log(encodedParams.toString());
@@ -76,7 +76,7 @@ export class PayrexxService {
 
         encodedParams.set('orderByTime', 'ASC');
         encodedParams.set('filterDatetimeUtcGreaterThan', '2022-01-01 00:00:00');
-        encodedParams.set('filterDatetimeUtcLessThan', '2022-08-01 00:00:00');
+        encodedParams.set('filterDatetimeUtcLessThan', '2022-06-01 00:00:00');
         encodedParams.set('limit', limit); // ACHTUNG - vielleicht braucht es hier String
         encodedParams.set('offset', offset ); //Achtung vielleicht String
         console.log(encodedParams.toString());
@@ -118,34 +118,56 @@ export class PayrexxService {
   }
 
   loop(offset: number = 0, limit: number = 100): any {
+    var self = this;
+    return new Promise(function(final_resolve, final_reject){
+
+
+
     console.log("inside loop");
     console.log(offset)
     console.log(limit)
       //var offset = 0;
       //var limit = 100;
 
-      this.getPayrexxTransactionsBatch(offset, limit)
+      self.getPayrexxTransactionsBatch(offset, limit)
       .subscribe((response: any) => {
         console.log(response);
         console.log(response["data"]);
-        this.transactions = [
-          ...this.transactions,
+        self.transactions = [
+          ...self.transactions,
           ...response["data"]
         ]
 
         if (response["data"].length == limit) {
-          return this.loop(offset + 1, limit)
+          //return self.loop(offset + 1, limit)
+          return self.loop(offset + limit, limit)
+
         } else {
           console.log('yay')
+          final_resolve(self.transactions)
+          //return this.transactions;
         }
 
       })
 
+    })
   }
 
   getPayrexxTransactions(): any {
-    console.log("loop start");
-    this.loop(0, 100);
+    var self = this;
+
+    return new Promise(function(final_resolve, final_reject){
+
+      console.log("loop start");
+      self.loop(0, 100)
+      .then((response: any) => {
+        console.log(response);
+        final_resolve(response);
+        //return response
+      });
+
+     })
+
 
   }
 
