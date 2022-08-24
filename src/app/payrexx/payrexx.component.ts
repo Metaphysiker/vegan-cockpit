@@ -16,9 +16,12 @@ export class PayrexxComponent implements OnInit {
 
   data_wordpress_nonce_string: string = "";
 
-  data_wordpress_json_endpoint = document.querySelector('link[rel="https://api.w.org/"]') as HTMLAnchorElement | null;
+
+  //data_wordpress_json_endpoint = document.querySelector('link[rel="https://api.w.org/"]') as HTMLAnchorElement | null;
 
   //data_wordpress_json_endpoint: any = document.querySelector('link[rel="https://api.w.org/"]').href | "nichts";
+
+  data_wordpress_json_endpoint = document.querySelector('#data_wordpress_json_endpoint');
 
   data_wordpress_json_endpoint_string: string = "";
 
@@ -34,8 +37,10 @@ export class PayrexxComponent implements OnInit {
     }
 
     if(this.data_wordpress_json_endpoint != null){
-      this.data_wordpress_json_endpoint_string = this.data_wordpress_json_endpoint.href;
+      this.data_wordpress_json_endpoint_string = this.data_wordpress_json_endpoint.innerHTML.trim();
       console.log(this.data_wordpress_json_endpoint_string);
+    } else {
+      console.log("endpoint not found");
     }
 
     console.log("payrexx");

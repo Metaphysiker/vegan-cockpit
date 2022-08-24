@@ -28,7 +28,7 @@ export class PayrexxService {
   startdate: string = "2022-01-01";
   enddate: string = "2022-02-20";
   wordpress_nonce: any = "e92b9b2d2d";
-  data_wordpress_json_endpoint_string: any = "http://localhost/wp-json/";
+  data_wordpress_json_endpoint_string: any = "nothing";
 
   constructor(
     private http: HttpClient
