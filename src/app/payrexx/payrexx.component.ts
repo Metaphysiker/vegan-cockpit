@@ -16,6 +16,12 @@ export class PayrexxComponent implements OnInit {
 
   data_wordpress_nonce_string: string = "";
 
+  data_wordpress_json_endpoint = document.querySelector('link[rel="https://api.w.org/"]') as HTMLAnchorElement | null;
+
+  //data_wordpress_json_endpoint: any = document.querySelector('link[rel="https://api.w.org/"]').href | "nichts";
+
+  data_wordpress_json_endpoint_string: string = "";
+
   constructor(
     private payrexxService: PayrexxService
   ) { }
@@ -27,6 +33,11 @@ export class PayrexxComponent implements OnInit {
       console.log(this.data_wordpress_nonce_string);
     }
 
+    if(this.data_wordpress_json_endpoint != null){
+      this.data_wordpress_json_endpoint_string = this.data_wordpress_json_endpoint.href;
+      console.log(this.data_wordpress_json_endpoint_string);
+    }
+
     console.log("payrexx");
     //this.payrexxService.getPayrexxTransactions();
     //this.transactions = this.payrexxService.getPayrexxTransactions();
@@ -35,7 +46,7 @@ export class PayrexxComponent implements OnInit {
 
 
 
-    this.payrexxService.getPayrexxTransactions(this.data_wordpress_nonce_string)
+    this.payrexxService.getPayrexxTransactions(this.data_wordpress_nonce_string, this.data_wordpress_json_endpoint_string)
       .then((response: any)=> {
         console.log(response)
         this.transactions = response;
