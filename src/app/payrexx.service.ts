@@ -32,7 +32,7 @@ export class PayrexxService {
     }
   }
 
-  getPayrexxTransactionsBatch(offset = 0, limit = 100): any {
+  getPayrexxTransactionsBatch(offset: any = 0, limit: any = 100): any {
     console.log("get Batch")
 
     var self = this;
@@ -41,13 +41,12 @@ export class PayrexxService {
 
         encodedParams.set('orderByTime', 'ASC');
         encodedParams.set('filterDatetimeUtcGreaterThan', '2022-01-01 00:00:00');
-        encodedParams.set('filterDatetimeUtcLessThan', '2022-08-01 00:00:00');
-        encodedParams.set('limit', limit.toString()); // ACHTUNG - vielleicht braucht es hier String
+        encodedParams.set('filterDatetimeUtcLessThan', '2022-06-20 00:00:00');
         encodedParams.set('offset', offset.toString() ); //Achtung vielleicht String
+        encodedParams.set('limit', limit.toString()); // ACHTUNG - vielleicht braucht es hier String
         console.log(encodedParams.toString());
 
         var apiSignature = self.buildSignature(encodedParams.toString())
-        console.log(apiSignature);
 
         const url = 'https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz' + "&ApiSignature=" + apiSignature + "&" + encodedParams.toString();
         console.log("url: ")
@@ -62,13 +61,11 @@ export class PayrexxService {
           body: encodedParams
         };
 
-
         return this.http.get<any>(url);
-
 
   }
 
-  getPayrexxTransactionsBatch5(offset = 0, limit = 100): any {
+  getPayrexxTransactionsBatch5(offset: any = 0, limit: any = 100): any {
     console.log("get Batch")
 
     var self = this;
@@ -80,8 +77,8 @@ export class PayrexxService {
         encodedParams.set('orderByTime', 'ASC');
         encodedParams.set('filterDatetimeUtcGreaterThan', '2022-01-01 00:00:00');
         encodedParams.set('filterDatetimeUtcLessThan', '2022-08-01 00:00:00');
-        encodedParams.set('limit', limit.toString()); // ACHTUNG - vielleicht braucht es hier String
-        encodedParams.set('offset', offset.toString() ); //Achtung vielleicht String
+        encodedParams.set('limit', limit); // ACHTUNG - vielleicht braucht es hier String
+        encodedParams.set('offset', offset ); //Achtung vielleicht String
         console.log(encodedParams.toString());
 
         var apiSignature = self.buildSignature(encodedParams.toString())
@@ -120,21 +117,35 @@ export class PayrexxService {
 
   }
 
+  loop(offset: number = 0, limit: number = 100): any {
+    console.log("inside loop");
+    console.log(offset)
+    console.log(limit)
+      //var offset = 0;
+      //var limit = 100;
+
+      this.getPayrexxTransactionsBatch(offset, limit)
+      .subscribe((response: any) => {
+        console.log(response);
+        console.log(response["data"]);
+        this.transactions = [
+          ...this.transactions,
+          ...response["data"]
+        ]
+
+        if (response["data"].length == limit) {
+          return this.loop(offset + 1, limit)
+        } else {
+          console.log('yay')
+        }
+
+      })
+
+  }
+
   getPayrexxTransactions(): any {
-
-    console.log("getPayrexxTransactions");
-
-    var offset = 0;
-    var limit = 100;
-
-    this.getPayrexxTransactionsBatch(offset, limit)
-    .subscribe((response: any) => {
-      console.log(response);
-    })
-
-
-
-    //return this.transactions
+    console.log("loop start");
+    this.loop(0, 100);
 
   }
 
