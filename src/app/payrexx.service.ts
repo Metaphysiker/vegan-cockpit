@@ -19,107 +19,54 @@ declare const Qs: any;
 export class PayrexxService {
 
   //payrexxapikey = "23zkRkQAjcjlJdENtbysNI2lueYRIM";
-  payrexxapikey = document.querySelector('#data-payrexx-api-key');
-  payrexxapikey_string: string = "";
+  //payrexxapikey = document.querySelector('#data-payrexx-api-key');
+  //payrexxapikey_string: string = "";
 
   transactions: any = [];
+  offset: number = 0;
+  limit: number = 100;
+  startdate: string = "2022-01-01";
+  enddate: string = "2022-01-20";
 
   constructor(
     private http: HttpClient
   ) {
-    if(this.payrexxapikey != null){
-      this.payrexxapikey_string = this.payrexxapikey.innerHTML.trim();
-    }
+    //if(this.payrexxapikey != null){
+    //  this.payrexxapikey_string = this.payrexxapikey.innerHTML.trim();
+    //}
   }
 
-  getPayrexxTransactionsBatch(offset: any = 0, limit: any = 100): any {
-    console.log("get Batch")
-
+  getPayrexxTransactionsBatch(): any {
     var self = this;
-
-        const encodedParams = new URLSearchParams();
-
-        encodedParams.set('orderByTime', 'ASC');
-        encodedParams.set('filterDatetimeUtcGreaterThan', '2022-01-01 00:00:00');
-        encodedParams.set('filterDatetimeUtcLessThan', '2022-08-01 00:00:00');
-        encodedParams.set('offset', offset.toString() ); //Achtung vielleicht String
-        encodedParams.set('limit', limit.toString()); // ACHTUNG - vielleicht braucht es hier String
-        console.log(encodedParams.toString());
-
-        var apiSignature = self.buildSignature(encodedParams.toString())
-
-        const url = 'https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz' + "&ApiSignature=" + apiSignature + "&" + encodedParams.toString();
-        console.log("url: ")
-        console.log(url)
-        const options = {
-          method: 'GET',
-          mode: 'cors',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          body: encodedParams
-        };
-
-        return this.http.get<any>(url);
-
-  }
-
-  getPayrexxTransactionsBatch5(offset: any = 0, limit: any = 100): any {
-    console.log("get Batch")
-
-    var self = this;
+    console.log("get Batch");
+    var url = "http://localhost/wp-json/vegan_cockpit/v1/get_payrexx_transactions/"+ this.offset + "/" + this.limit + "/" + this.startdate + "/" + this.enddate;
+    console.log(url);
 
     return new Promise(function(final_resolve, final_reject){
 
-        const encodedParams = new URLSearchParams();
+      fetch(url)
+      .then((response: any) => response.json())
+      .then((data: any) => {
 
-        encodedParams.set('orderByTime', 'ASC');
-        encodedParams.set('filterDatetimeUtcGreaterThan', '2022-01-01 00:00:00');
-        encodedParams.set('filterDatetimeUtcLessThan', '2022-06-01 00:00:00');
-        encodedParams.set('limit', limit); // ACHTUNG - vielleicht braucht es hier String
-        encodedParams.set('offset', offset ); //Achtung vielleicht String
-        console.log(encodedParams.toString());
+        self.transactions = [
+          ...data,
+          self.transactions];
 
-        var apiSignature = self.buildSignature(encodedParams.toString())
-        console.log(apiSignature);
+        final_resolve(data);
 
-        const url = 'https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz' + "&ApiSignature=" + apiSignature + "&" + encodedParams.toString();
-        console.log("url: ")
-        console.log(url)
-        const options = {
-          method: 'GET',
-          mode: 'cors',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-          body: encodedParams
-        };
+      })
+
+    });
 
 
-
-
-        fetch(url)
-          .then((res: any) => {
-            console.log(res);
-            self.transactions = [
-              ...self.transactions,
-              ...res["data"]
-            ];
-            console.log(self.transactions);
-            console.log("Data:");
-            console.log(res["data"]);
-            final_resolve(res["data"]);
-          });
-
-     })
+    //return this.http.get<any>(url);
 
   }
+
 
   loop(offset: number = 0, limit: number = 100): any {
     var self = this;
-    return new Promise(function(final_resolve, final_reject){
+    //return new Promise(function(final_resolve, final_reject){
 
 
 
@@ -129,188 +76,76 @@ export class PayrexxService {
       //var offset = 0;
       //var limit = 100;
 
-      self.getPayrexxTransactionsBatch(offset, limit)
+      self.getPayrexxTransactionsBatch()
       .subscribe((response: any) => {
+        console.log("then subscribe");
         console.log(response);
-        console.log(response["data"]);
         self.transactions = [
           ...self.transactions,
-          ...response["data"]
+          ...response
         ]
 
-        if (response["data"].length == limit) {
+        console.log("self.transactions");
+        console.log(self.transactions)
+
+        if (response.length == limit) {
           //return self.loop(offset + 1, limit)
           return self.loop(offset + limit, limit)
 
         } else {
-          console.log('yay')
-          final_resolve(self.transactions)
-          //return this.transactions;
+          console.log('yay');
+          console.log(self.transactions);
+          //final_resolve(self.transactions);
+          return this.transactions;
         }
 
       })
 
+    //})
+  }
+
+  checkIfAnotherBatchIsNecessary(): any {
+    if(this.transactions.length == this.offset * this.limit){
+      return true
+    } else {
+      return false
+    }
+  }
+
+  looper(resolve: any): any {
+    console.log("LOOPER");
+    var self = this;
+
+    return new Promise(function(final_resolve, final_reject){
+      self.getPayrexxTransactionsBatch()
+        .then((response:any) => {
+
+          if(self.transactions.length == self.offset * self.limit){
+            self.looper(final_resolve);
+          } else {
+            console.log("FINAL RESOLVE!");
+            resolve("yay");
+          }
+
+        })
     })
+
+
   }
 
   getPayrexxTransactions(): any {
     var self = this;
 
     return new Promise(function(final_resolve, final_reject){
+      new Promise((r, j) => {
+          self.looper(r);
+      }).then((result) => {
+          //This will call if your algorithm succeeds!
+          console.log("omg");
+          final_resolve(self.transactions);
 
-      console.log("loop start");
-      self.loop(0, 100)
-      .then((response: any) => {
-        console.log(response);
-        final_resolve(response);
-        //return response
       });
-
-     })
-
-
-  }
-
-  getPayrexxTransactions12(): any {
-
-    //works:
-    //      model: "Page",
-    //      id: 17,
-    //      limit: 100,
-
-    let params: any = {
-      orderByTime: 'ASC',
-      //filterDatetimeUtcGreaterThan: "2021-02-05 11:04:04",
-      //filterDatetimeUtcLessThan: '2022-01-01 00:00:00',
-      limit: 100,
-    }
-
-    let queryParams = Object.assign({}, params)
-    var queryStr = Qs.stringify(queryParams)
-
-    console.log("queryStr")
-    console.log(queryStr)
-
-    queryStr = encodeURI(queryStr);
-
-    let apiSignature = this.buildSignature(queryStr)
-    queryParams.ApiSignature = apiSignature
-
-    //queryParams.ApiSignature = this.buildSignature(queryStr)
-    console.log(queryParams)
-
-    let httpOptions = {
-      headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
-    };
-
-    //var url = "https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz&" + encodeURI(queryStr) +"&ApiSignature=" + apiSignature;
-    // url = "https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz&" + encodeURI(queryStr) +"&ApiSignature=" + apiSignature;
-
-    var url = "https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz&" + queryStr +"&ApiSignature=" + apiSignature;
-
-    console.log("FINAL URL: ");
-    console.log(url);
-    //return this.http.post(url, queryParams, httpOptions)
-    //return this.http.get(url, httpOptions)
-
-    return this.http.get(url)
-
-
-
-  }
-
-  getPayrexxTransactions5(): any {
-    const options = {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: new URLSearchParams(
-        {
-          filterMyTransactionsOnly: "false",
-          orderByTime: 'ASC'
-        }
-        )
-    };
-
-    console.log(JSON.stringify(options.toString()))
-
-  fetch('https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz', options)
-    .then(response => response.json())
-    .then(response => console.log(response))
-    .catch(err => console.error(err));
-
-  }
-
-  getPayrexxTransactions9(): any {
-
-
-    let params = new HttpParams({
-     fromObject: {
-       filterMyTransactionsOnly: false,
-       orderByTime: 'ASC',
-       filterDatetimeUtcGreaterThan: '2022-01-01 00:00:00'
-     }
-   });
-
-   let params_query = "orderByTime=ASC&filterMyTransactionsOnly=false";
-
-   let httpOptions = {
-     headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
-   };
-
-    var apiSignature = this.buildSignature(params_query);
-
-    //var url = "https://api.payrexx.com/v1.0/SignatureCheck/?instance=veganegesellschaftschweiz&ApiSignature=" + apiSignature;
-
-    var url = 'https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz&ApiSignature=' + apiSignature + "?" + params_query;
-
-    console.log(url);
-    return this.http.get<any>(url)
-    //return this.http.get<any>(url);
-
-
-    //const options = {method: 'GET', headers: {Accept: 'application/json'}};
-
-//fetch('https://api.payrexx.com/v1.0/SignatureCheck/?instance=veganegesellschaftschweiz', options)
-//  .then(response => response.json())
-//  .then(response => console.log(response))
-//  .catch(err => console.error(err));
-
-
-  }
-
-  getPayrexxTransactions1(): any {
-
-    const options = {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }//,6
-      //body: new URLSearchParams({filterMyTransactionsOnly: "false", orderByTime: 'ASC'})
-    };
-
-    fetch('https://api.payrexx.com/v1.0/Transaction/?instance=veganegesellschaftschweiz', options)
-      .then(response => response.json())
-      .then(response => console.log(response))
-      .catch(err => console.error(err));
-
-  }
-
-  getTransactions(): any {
-    const instance = "veganegesellschaftschweiz";
-    let queryParams = Object.assign({}, "params")
-    //const queryStr = qs.stringify(queryParams)
-    //queryParams.ApiSignature = this.buildSignature(queryStr)
-
-  }
-
-  buildSignature (query = '') {
-    //console.log(this.payrexxapikey_string);
-    return CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA256(query, this.payrexxapikey_string))
-    //return CryptoJS.enc.Base64.stringify(CryptoJS.HmacSHA256('', this.payrexxapikey_string))
+    })
 
   }
 

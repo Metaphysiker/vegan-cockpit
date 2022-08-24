@@ -10,7 +10,7 @@ import { PayrexxService } from '../payrexx.service';
 })
 export class PayrexxComponent implements OnInit {
   transactions: any = []
-  headers_for_transactions: any = ["amount", "id", "status"]
+  headers_for_transactions: any = ["amount", "firstname", "lastname", "time", "user_id"]
 
   constructor(
     private payrexxService: PayrexxService
@@ -23,10 +23,19 @@ export class PayrexxComponent implements OnInit {
     console.log("getPayrexxTransactions in component");
     //console.log(this.payrexxService.getPayrexxTransactions())
 
+
+
     this.payrexxService.getPayrexxTransactions()
-    .then((response: any) => {
-      this.transactions = response;
-    });
+      .then((response: any)=> {
+        console.log(response)
+        this.transactions = response;
+      })
+
+    //.then((response: any) => {
+    //  console.log("PAYREXX COMPONENT");
+    //  console.log(response);
+    //  this.transactions = response;
+    //});
     //.subscribe((response: any) => {
     //  console.log(response);
     //});
