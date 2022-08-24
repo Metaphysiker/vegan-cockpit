@@ -26,7 +26,8 @@ export class PayrexxService {
   offset: number = 0;
   limit: number = 100;
   startdate: string = "2022-01-01";
-  enddate: string = "2022-01-20";
+  enddate: string = "2022-02-20";
+  wordpress_nonce: any = "e92b9b2d2d";
 
   constructor(
     private http: HttpClient
@@ -44,7 +45,12 @@ export class PayrexxService {
 
     return new Promise(function(final_resolve, final_reject){
 
-      fetch(url)
+      fetch(url, {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-WP-Nonce' : self.wordpress_nonce
+        }
+      })
       .then((response: any) => response.json())
       .then((data: any) => {
 
@@ -133,8 +139,9 @@ export class PayrexxService {
 
   }
 
-  getPayrexxTransactions(): any {
+  getPayrexxTransactions(wordpress_nonce: any = ""): any {
     var self = this;
+    this.wordpress_nonce = wordpress_nonce;
 
     return new Promise(function(final_resolve, final_reject){
       new Promise((r, j) => {
