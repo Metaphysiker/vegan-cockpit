@@ -66,6 +66,7 @@ export class PayrexxComponent implements OnInit {
 
     this.payrexxService.getPayrexxTransactions(this.data_wordpress_nonce_string, this.data_wordpress_json_endpoint_string, payrexxOptions)
       .then((response: any)=> {
+        console.log("payrexx component here should be transactions");
         console.log(response)
         this.transactions = response;
       })

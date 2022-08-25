@@ -47,6 +47,8 @@ export class PayrexxService {
   getPayrexxTransactionsBatch(): any {
     var self = this;
     console.log("get Batch");
+    console.log("count transactions: ");
+    console.log(self.transactions.length);
     console.log("offset: " + self.offset);
     console.log("limit: " + self.limit);
     var url = this.data_wordpress_json_endpoint_string + "vegan_cockpit/v1/get_payrexx_transactions/"+ this.offset + "/" + this.limit + "/" + this.payrexxOptions.start_date.toISOString().split('T')[0] + "/" + this.payrexxOptions.end_date.toISOString().split('T')[0] + "?_wpnonce=" + this.wordpress_nonce;
@@ -60,7 +62,7 @@ export class PayrexxService {
 
         self.transactions = [
           ...data,
-          self.transactions];
+          ...self.transactions];
 
         final_resolve(data);
 
@@ -130,11 +132,16 @@ export class PayrexxService {
       self.getPayrexxTransactionsBatch()
         .then((response:any) => {
 
-          if(self.transactions.length == self.offset * self.limit){
+          console.log("LOOPER CHECK");
+          console.log(response.length);
+          console.log(self.limit);
+          console.log(response.length == self.limit);
+          if(response.length == self.limit){
             self.offset = self.offset + self.limit;
-            self.looper(final_resolve);
+            self.looper(resolve);
           } else {
             console.log("FINAL RESOLVE!");
+            console.log(self.transactions);
             resolve("yay");
           }
 
@@ -153,7 +160,7 @@ export class PayrexxService {
     return new Promise(function(final_resolve, final_reject){
       new Promise((r, j) => {
           self.looper(r);
-      }).then((result) => {
+      }).then((result: any) => {
           //This will call if your algorithm succeeds!
           console.log("omg");
           final_resolve(self.transactions);
