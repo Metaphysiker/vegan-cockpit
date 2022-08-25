@@ -4,6 +4,8 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
 import { PayrexxOptions } from './payrexx-options';
+import { PayrexxTransaction } from './payrexx-transaction';
+
 
 //declare const sha256: any;
 //import hmacSHA256 from 'crypto-js/hmac-sha256';
@@ -24,7 +26,7 @@ export class PayrexxService {
   //payrexxapikey = document.querySelector('#data-payrexx-api-key');
   //payrexxapikey_string: string = "";
 
-  transactions: any = [];
+  transactions: PayrexxTransaction[] = [];
   offset: number = 0;
   limit: number = 100;
   startdate: string = "2022-01-01";
@@ -60,9 +62,17 @@ export class PayrexxService {
       .then((response: any) => response.json())
       .then((data: any) => {
 
-        self.transactions = [
-          ...data,
-          ...self.transactions];
+        for (let i = 0; i < data.length; i++) {
+          self.transactions.push(
+            {
+              amount: data[i]["amount"] / 100,
+              firstname: data[i]["firstname"],
+              lastname: data[i]["lastname"],
+              time: data[i]["time"],
+              user_id: data[i]["user_id"]
+            }
+          )
+        }
 
         final_resolve(data);
 
