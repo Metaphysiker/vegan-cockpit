@@ -2,7 +2,10 @@
   <thead>
     <tr>
       <th *ngFor="let header of headers">
-        <button (click)="sort(header)" class="btn btn-link">{{header}}</button>
+        {{header}}
+        <button (click)="sort(header, 'DESC')" class="btn btn-link">↓</button>
+        <button (click)="sort(header, 'ASC')" class="btn btn-link">↑</button>
+
       </th>
     </tr>
   </thead>

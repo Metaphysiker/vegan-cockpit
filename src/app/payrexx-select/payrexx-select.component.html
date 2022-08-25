@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="card my-3">
+    <div class="card-body">
+
+      <h5 class="card-title">Optionen</h5>
+
+      <div class="row">
+        <div class="col-6">
+          <input matInput [matDatepicker]="picker" [formControl]="start_date">
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <br>
+          <mat-hint>DD/MM/YYYY</mat-hint>
+        </div>
+        <div class="col-6">
+          <input matInput [matDatepicker]="picker2" [formControl]="end_date">
+          <mat-datepicker #picker2></mat-datepicker>
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <br>
+          <mat-hint>DD/MM/YYYY</mat-hint>
+        </div>
+      </div>
+
+      <button type="button" (click)="start()" class="btn btn-primary my-2">Starten</button>
+
+
+
+    </div>
+  </div>

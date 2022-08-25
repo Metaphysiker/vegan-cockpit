@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 
 import { PayrexxService } from '../payrexx.service';
 
+import { PayrexxOptions } from '../payrexx-options';
 
 @Component({
   selector: 'app-payrexx',
@@ -49,14 +50,6 @@ export class PayrexxComponent implements OnInit {
     console.log("getPayrexxTransactions in component");
     //console.log(this.payrexxService.getPayrexxTransactions())
 
-
-
-    this.payrexxService.getPayrexxTransactions(this.data_wordpress_nonce_string, this.data_wordpress_json_endpoint_string)
-      .then((response: any)=> {
-        console.log(response)
-        this.transactions = response;
-      })
-
     //.then((response: any) => {
     //  console.log("PAYREXX COMPONENT");
     //  console.log(response);
@@ -65,6 +58,17 @@ export class PayrexxComponent implements OnInit {
     //.subscribe((response: any) => {
     //  console.log(response);
     //});
+  }
+
+  startAnalysis(payrexxOptions: PayrexxOptions){
+    console.log("payrexx.component");
+    console.log(payrexxOptions);
+
+    this.payrexxService.getPayrexxTransactions(this.data_wordpress_nonce_string, this.data_wordpress_json_endpoint_string, payrexxOptions)
+      .then((response: any)=> {
+        console.log(response)
+        this.transactions = response;
+      })
   }
 
 }

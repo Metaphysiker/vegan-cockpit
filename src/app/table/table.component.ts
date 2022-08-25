@@ -13,9 +13,9 @@ export class TableComponent implements OnInit {
 
   @Input() rows: any[] =
     [
-      {a: "123", b: "234", c: "345"},
-      {a: "456", b: "567", c: "678"},
-      {a: "789", b: "889", c: "899"}
+      {a: "123", b: "alphabet", c: "s.raess@me.com"},
+      {a: "456", b: "camma", c: "sandro.raess@philosophie.ch"},
+      {a: "789", b: "beta", c: "sandro@vegan.ch"}
     ]
 
   constructor() { }
@@ -23,10 +23,17 @@ export class TableComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  sort(key: any): void {
+  sort(key: any, order: string): void {
+
+
+
     this.rows.sort((a, b) => {
-      return b[key] - a[key]
+      return a[key].localeCompare(b[key])
     });
+
+    if(order == 'ASC'){
+      this.rows.reverse();
+    }
   }
 
 }

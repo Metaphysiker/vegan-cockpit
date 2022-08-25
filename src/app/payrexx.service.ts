@@ -3,6 +3,8 @@ import { HttpClient,HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
+import { PayrexxOptions } from './payrexx-options';
+
 //declare const sha256: any;
 //import hmacSHA256 from 'crypto-js/hmac-sha256';
 //declare const hmacSHA256: any;
@@ -29,6 +31,10 @@ export class PayrexxService {
   enddate: string = "2022-02-20";
   wordpress_nonce: any = "e92b9b2d2d";
   data_wordpress_json_endpoint_string: any = "nothing";
+  payrexxOptions: PayrexxOptions = {
+    start_date: new Date('2022-01-01'),
+    end_date: new Date()
+  }
 
   constructor(
     private http: HttpClient
@@ -41,7 +47,7 @@ export class PayrexxService {
   getPayrexxTransactionsBatch(): any {
     var self = this;
     console.log("get Batch");
-    var url = this.data_wordpress_json_endpoint_string + "vegan_cockpit/v1/get_payrexx_transactions/"+ this.offset + "/" + this.limit + "/" + this.startdate + "/" + this.enddate + "?_wpnonce=" + this.wordpress_nonce;
+    var url = this.data_wordpress_json_endpoint_string + "vegan_cockpit/v1/get_payrexx_transactions/"+ this.offset + "/" + this.limit + "/" + this.payrexxOptions.start_date.toISOString().split('T')[0] + "/" + this.payrexxOptions.end_date.toISOString().split('T')[0] + "?_wpnonce=" + this.wordpress_nonce;
     console.log(url);
 
     return new Promise(function(final_resolve, final_reject){
@@ -135,10 +141,11 @@ export class PayrexxService {
 
   }
 
-  getPayrexxTransactions(wordpress_nonce: any = "", data_wordpress_json_endpoint_string: any = ""): any {
+  getPayrexxTransactions(wordpress_nonce: any = "", data_wordpress_json_endpoint_string: any = "", payrexxOptions: PayrexxOptions): any {
     var self = this;
     this.wordpress_nonce = wordpress_nonce;
     this.data_wordpress_json_endpoint_string = data_wordpress_json_endpoint_string;
+    this.payrexxOptions = payrexxOptions;
 
     return new Promise(function(final_resolve, final_reject){
       new Promise((r, j) => {

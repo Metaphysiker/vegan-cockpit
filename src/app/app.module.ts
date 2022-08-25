@@ -26,6 +26,7 @@ import { CategoryAnalyticsAgeComponent } from './category-analytics-age/category
 import { WordpressBlogPostsAgeComponent } from './wordpress-blog-posts-age/wordpress-blog-posts-age.component';
 import { TableComponent } from './table/table.component';
 import { PayrexxComponent } from './payrexx/payrexx.component';
+import { PayrexxSelectComponent } from './payrexx-select/payrexx-select.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { PayrexxComponent } from './payrexx/payrexx.component';
     CategoryAnalyticsAgeComponent,
     WordpressBlogPostsAgeComponent,
     TableComponent,
-    PayrexxComponent
+    PayrexxComponent,
+    PayrexxSelectComponent
   ],
   imports: [
     BrowserModule,
