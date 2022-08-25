@@ -47,6 +47,8 @@ export class PayrexxService {
   getPayrexxTransactionsBatch(): any {
     var self = this;
     console.log("get Batch");
+    console.log("offset: " + self.offset);
+    console.log("limit: " + self.limit);
     var url = this.data_wordpress_json_endpoint_string + "vegan_cockpit/v1/get_payrexx_transactions/"+ this.offset + "/" + this.limit + "/" + this.payrexxOptions.start_date.toISOString().split('T')[0] + "/" + this.payrexxOptions.end_date.toISOString().split('T')[0] + "?_wpnonce=" + this.wordpress_nonce;
     console.log(url);
 
@@ -129,6 +131,7 @@ export class PayrexxService {
         .then((response:any) => {
 
           if(self.transactions.length == self.offset * self.limit){
+            self.offset = self.offset + self.limit;
             self.looper(final_resolve);
           } else {
             console.log("FINAL RESOLVE!");
