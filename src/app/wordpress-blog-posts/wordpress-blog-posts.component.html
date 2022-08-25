@@ -3,34 +3,6 @@
   <p>
     Count: <strong>{{category["count"]}}</strong>
   </p>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">title</th>
-        <th scope="col">url</th>
-        <th scope="col">users</th>
-        <th scope="col">sessions</th>
-        <th scope="col">pageviews</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let blog_post of blog_posts">
-        <td>
-          {{blog_post["title"]["rendered"]}}
-        </td>
-        <td>
-          {{blog_post["slug"]}}
-        </td>
-        <td>
-          {{blog_post["users"]}}
-        </td>
-        <td>
-          {{blog_post["sessions"]}}
-        </td>
-        <td>
-          {{blog_post["pageviews"]}}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <app-table [headers]="wordpressBlogPostsHeaders" [rows]="wordpressBlogPosts"></app-table>
+
 </div>

@@ -3,6 +3,7 @@ import { GoogleAnalyticsService } from '../google-analytics.service';
 import { WordpressService } from '../wordpress.service';
 
 import { Analysis } from '../analysis';
+import { WordpressBlogPost } from '../wordpress-blog-post';
 
 @Component({
   selector: 'app-wordpress-blog-posts',
@@ -10,6 +11,9 @@ import { Analysis } from '../analysis';
   styleUrls: ['./wordpress-blog-posts.component.scss']
 })
 export class WordpressBlogPostsComponent implements OnInit {
+
+  wordpressBlogPosts: WordpressBlogPost[] = [];
+  wordpressBlogPostsHeaders: string[] = ["title", "url", "users", "sessions", "pageviews"];
 
   @Input() blog_posts: any = [];
 
@@ -58,26 +62,11 @@ export class WordpressBlogPostsComponent implements OnInit {
       pageviews: 0
     }
 
-    for (let i = 0; i < this.blog_posts.length; i++) {
+    for (let i = 0; i < this.wordpressBlogPosts.length; i++) {
 
-      var users = parseInt(this.blog_posts[i]["users"], 10);
-      console.log(users);
-      if(!isNaN(users)){
-        analysis["users"] = analysis["users"] + users;
-      }
-
-      var sessions = parseInt(this.blog_posts[i]["sessions"], 10);
-      if(!isNaN(sessions)){
-        analysis["sessions"] = analysis["sessions"] + sessions;
-      }
-
-      var pageviews = parseInt(this.blog_posts[i]["pageviews"], 10);
-      if(!isNaN(pageviews)){
-        analysis["pageviews"] = analysis["pageviews"] + pageviews;
-      }
-
-      //analysis["sessions"] = analysis["sessions"] + this.blog_posts[i]["sessions"];
-      //analysis["pageviews"] = analysis["pageviews"] + this.blog_posts[i]["pageviews"];
+      analysis["users"] = analysis["users"] + this.wordpressBlogPosts[i]["users"];
+      analysis["sessions"] = analysis["sessions"] + this.wordpressBlogPosts[i]["sessions"];
+      analysis["pageviews"] = analysis["pageviews"] + this.wordpressBlogPosts[i]["pageviews"];
     }
 
     return analysis;
@@ -107,6 +96,18 @@ export class WordpressBlogPostsComponent implements OnInit {
               var existing_blog_posts = self.blog_posts;
               self.blog_posts = [...existing_blog_posts, ...response];
 
+              for (let i = 0; i < response.length; i++) {
+                self.wordpressBlogPosts.push({
+                  title: response[i]["title"]["rendered"],
+                  url: response[i]["slug"],
+                  users: 0,
+                  sessions: 0,
+                  pageviews: 0,
+                })
+              }
+
+
+
               console.log(self.blog_posts.constructor.name)
 
 
@@ -133,18 +134,22 @@ export class WordpressBlogPostsComponent implements OnInit {
 
     return new Promise(function(final_resolve, final_reject){
 
-      for (let i = 0, p = Promise.resolve(); i < self.blog_posts.length; i++)
+      for (let i = 0, p = Promise.resolve(); i < self.wordpressBlogPosts.length; i++)
         {
 
           p = p.then(() => new Promise(function(second_resolve, second_reject) {
 
-            self.getGoogleDataAndUpdate(self.blog_posts[i]["slug"]).then((result: any) => {
+            self.getGoogleDataAndUpdate(self.wordpressBlogPosts[i]["url"]).then((result: any) => {
 
               self.blog_posts[i]["users"] = result["users"];
               self.blog_posts[i]["sessions"] = result["sessions"];
               self.blog_posts[i]["pageviews"] = result["pageviews"];
 
-              self.blog_posts = self.blog_posts.sort((a: any, b: any) => b.users - a.users);
+              self.wordpressBlogPosts[i]["users"] = result["users"];
+              self.wordpressBlogPosts[i]["sessions"] = result["sessions"];
+              self.wordpressBlogPosts[i]["pageviews"] = result["pageviews"];
+
+              //self.blog_posts = self.blog_posts.sort((a: any, b: any) => b.users - a.users);
 
               second_resolve();
 

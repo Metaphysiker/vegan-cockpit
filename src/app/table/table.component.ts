@@ -8,14 +8,14 @@ import { Component, OnInit, Input } from '@angular/core';
 export class TableComponent implements OnInit {
 
   @Input() headers: any[] = [
-    "a", "b", "c"
+    "a", "b", "c", "d"
   ]
 
   @Input() rows: any[] =
     [
-      {a: "123", b: "alphabet", c: "s.raess@me.com"},
-      {a: "456", b: "camma", c: "sandro.raess@philosophie.ch"},
-      {a: "789", b: "beta", c: "sandro@vegan.ch"}
+      {a: "123", b: "alphabet", c: "s.raess@me.com", d: 123},
+      {a: "456", b: "camma", c: "sandro.raess@philosophie.ch", d: 345},
+      {a: "789", b: "beta", c: "sandro@vegan.ch", d: 456}
     ]
 
   constructor() { }
@@ -25,10 +25,8 @@ export class TableComponent implements OnInit {
 
   sort(key: any, order: string): void {
 
-
-
     this.rows.sort((a, b) => {
-      return a[key].localeCompare(b[key])
+      return a[key].toString().localeCompare(b[key].toString())
     });
 
     if(order == 'ASC'){
