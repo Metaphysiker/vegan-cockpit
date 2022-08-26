@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, ViewChild  } from '@angular/core';
 
+declare const Chart: any;
+
 @Component({
   selector: 'app-bar-chart',
   templateUrl: './bar-chart.component.html',
@@ -7,7 +9,7 @@ import { Component, OnInit, Input, ViewChild  } from '@angular/core';
 })
 export class BarChartComponent implements OnInit {
 
-  @ViewChild('bar_chart') barChart: any;
+  @ViewChild('bar_chart') bar_chart: any;
 
   @Input() barChartData: any = {
      labels: ["abc", "def"],
@@ -26,20 +28,37 @@ export class BarChartComponent implements OnInit {
 
   draw_chart(): void {
 
-    new Chart(this.bar_chart.nativeElement, {
-        type: 'bar',
-        data: {
-          barPercentage: 0.5,
-          barThickness: 6,
-          maxBarThickness: 8,
-          minBarLength: 2,
-          data: [10, 20, 30, 40, 50, 60, 70]
-          }]
-        },
-        options: {
+    var xValues = ["Italy", "France", "Spain", "USA", "Argentina"];
+    var yValues = [55, 49, 44, 24, 15];
+    var barColors = ["red", "green","blue","orange","brown"];
 
+    var mybarChart = new Chart(this.bar_chart.nativeElement, {
+  type: 'bar',
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+
+  options: {
+    legend: {
+      display: true,
+      position: 'top',
+      labels: {
+        fontColor: "#000080",
+      }
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
         }
-    });
+      }]
+    }
+  }
+});
 
   }
 
