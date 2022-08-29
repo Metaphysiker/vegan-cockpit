@@ -28,6 +28,8 @@ import { TableComponent } from './table/table.component';
 import { PayrexxComponent } from './payrexx/payrexx.component';
 import { PayrexxSelectComponent } from './payrexx-select/payrexx-select.component';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
+import { CategoryAnalyticsGenderComponent } from './category-analytics-gender/category-analytics-gender.component';
+import { WordpressBlogPostsGenderComponent } from './wordpress-blog-posts-gender/wordpress-blog-posts-gender.component';
 
 
 @NgModule({
@@ -46,7 +48,9 @@ import { BarChartComponent } from './bar-chart/bar-chart.component';
     TableComponent,
     PayrexxComponent,
     PayrexxSelectComponent,
-    BarChartComponent
+    BarChartComponent,
+    CategoryAnalyticsGenderComponent,
+    WordpressBlogPostsGenderComponent
   ],
   imports: [
     BrowserModule,

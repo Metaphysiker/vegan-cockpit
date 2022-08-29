@@ -61,7 +61,8 @@ export class GoogleAnalyticsService {
   							{
   							 //"operator": "REGEXP",
   							 //https://developers.google.com/analytics/devguides/reporting/core/v4/rest/v4/reports/batchGet
-  							 "operator": "REGEXP",
+                 // https://ga-dev-tools.web.app/dimensions-metrics-explorer/
+                 "operator": "REGEXP",
   							 "dimensionName": "ga:pagePath",
   							 "expressions": [
   								 relative_url
@@ -135,5 +136,57 @@ export class GoogleAnalyticsService {
     )
     })
   }
+
+  getDataFromGoogleWithUserGenderBracketDimension(view_id: any, dateRange: any, relative_url:any): any {
+
+  return new Promise(function(resolve, reject)
+    {
+      gapi.client.request({
+        path: '/v4/reports:batchGet',
+        root: 'https://analyticsreporting.googleapis.com/',
+        method: 'POST',
+        body: {
+          reportRequests: [
+            {
+              viewId: view_id,
+              dateRanges: [dateRange],
+              metrics: [
+                {
+                  expression: 'ga:users'
+                }
+              ],
+              "dimensions": [
+              {
+                "name":"ga:userGender"
+              }],
+              "dimensionFilterClauses": [
+               {
+                "filters": [
+                {
+                 //"operator": "REGEXP",
+                 //https://developers.google.com/analytics/devguides/reporting/core/v4/rest/v4/reports/batchGet
+                 "operator": "REGEXP",
+                 "dimensionName": "ga:pagePath",
+                 "expressions": [
+                   relative_url
+                  ]
+                }
+                ]
+               }
+              ]
+            }
+          ]
+        }
+      }).then(function(response: any){
+        //return response;
+        resolve(response);
+      },
+      function(error: any){
+        resolve(error);
+      }
+    )
+    })
+  }
+
 
 }

@@ -1,0 +1,8 @@
+<div class="container">
+  <h2>{{category["name"]}}</h2>
+  <p>
+    Count: <strong>{{category["count"]}}</strong>
+  </p>
+  <app-table [headers]="rows_for_table_headers" [rows]=blog_posts></app-table>
+
+</div>
