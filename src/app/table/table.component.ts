@@ -44,8 +44,18 @@ export class TableComponent implements OnInit {
     for (let i = 0; i < this.rows.length; i++) {
 
       for (var [key, value] of Object.entries(this.rows[i])) {
+
+
         if(typeof value == 'number'){
           this.totals[key] += value;
+        } else if (typeof value == 'string') {
+
+          if(!isNaN(value as any)){
+            this.totals[key] += parseInt(value);
+          } else {
+            this.totals[key] += 1;
+          }
+
         } else {
           this.totals[key] += 1;
         }
