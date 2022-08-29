@@ -17,7 +17,11 @@ export class TableComponent implements OnInit {
       {a: "456", b: "camma", c: "sandro.raess@philosophie.ch", d: 345},
       {a: "789", b: "beta", c: "sandro@vegan.ch", d: 456},
       {a: "0.2", b: "beta", c: "sandro@vegan.ch", d: 0.2},
-      {a: " 50", b: "beta", c: "sandro@vegan.ch", d: 50}
+      {a: " 50", b: "beta", c: "sandro@vegan.ch", d: "50"},
+      {a: " 50", b: "beta", c: "sandro@vegan.ch", d: "0"},
+      {a: " 50", b: "beta", c: "sandro@vegan.ch", d: " "},
+      {a: " 50", b: "beta", c: "sandro@vegan.ch", d: undefined},
+      {a: " 50", b: "beta", c: "sandro@vegan.ch", d: "unknown" }
     ]
 
     totals: any = {};
@@ -48,16 +52,16 @@ export class TableComponent implements OnInit {
 
         if(typeof value == 'number'){
           this.totals[key] += value;
-        } else if (typeof value == 'string') {
+        } else if (!isNaN(value as any)) {
 
-          if(!isNaN(value as any)){
-            this.totals[key] += parseInt(value);
-          } else {
-            this.totals[key] += 1;
+          if(typeof parseInt(value as any) == 'number') {
+
+            this.totals[key] += parseInt(value as any) || 0;
           }
+          //this.totals[key] += parseInt(value as any);
 
         } else {
-          this.totals[key] += 1;
+          this.totals[key] += 0;
         }
       }
 
