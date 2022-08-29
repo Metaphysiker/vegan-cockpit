@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-table',
@@ -20,9 +20,39 @@ export class TableComponent implements OnInit {
       {a: " 50", b: "beta", c: "sandro@vegan.ch", d: 50}
     ]
 
+    totals: any = {};
+
   constructor() { }
 
   ngOnInit(): void {
+    this.getTotals();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    // changes.prop contains the old and the new value...
+    this.getTotals();
+  }
+
+  getTotals(){
+
+    this.totals = {};
+
+    for (var [key, value] of Object.entries(this.rows[0])) {
+      this.totals[key] = 0;
+    }
+
+    for (let i = 0; i < this.rows.length; i++) {
+
+      for (var [key, value] of Object.entries(this.rows[i])) {
+        if(typeof value == 'number'){
+          this.totals[key] += value;
+        } else {
+          this.totals[key] += 1;
+        }
+      }
+
+    }
+
   }
 
   sort(key: any, order: string): void {

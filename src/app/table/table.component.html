@@ -15,5 +15,12 @@
         {{row[header]}}
       </td>
     </tr>
+
+    <tr class="table-info">
+      <td *ngFor="let header of headers">
+        {{totals[header]}}
+      </td>
+    </tr>
+
   </tbody>
 </table>
