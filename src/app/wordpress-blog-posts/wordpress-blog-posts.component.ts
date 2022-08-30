@@ -201,13 +201,29 @@ export class WordpressBlogPostsComponent implements OnInit {
           },
         relative_url).then(
         function(response: any) {
-          //let data_rows = {users: 0, sessions: 0, pageviews: 0}
-
           let data_rows = {
-            users: response?.result?.reports?.[0].data?.rows?.[0]?.metrics[0]?.values[0],
-            sessions: response?.result?.reports?.[0].data?.rows?.[0]?.metrics[0]?.values[1],
-            pageviews: response?.result?.reports?.[0].data?.rows?.[0]?.metrics[0]?.values[2]
+            users: 0,
+            sessions: 0,
+            pageviews: 0
           }
+
+          if(response?.result?.reports?.[0].data?.rows?.[0]?.metrics[0]?.values[0]){
+            data_rows["users"] = response?.result?.reports?.[0].data?.rows?.[0]?.metrics[0]?.values[0]
+          }
+
+          if(response?.result?.reports?.[0].data?.rows?.[0]?.metrics[0]?.values[1]){
+            data_rows["sessions"] = response?.result?.reports?.[0].data?.rows?.[0]?.metrics[0]?.values[1]
+          }
+
+          if(response?.result?.reports?.[0].data?.rows?.[0]?.metrics[0]?.values[2]){
+            data_rows["pageviews"] = response?.result?.reports?.[0].data?.rows?.[0]?.metrics[0]?.values[2]
+          }
+
+          //let data_rows = {
+          //  users: response?.result?.reports?.[0].data?.rows?.[0]?.metrics[0]?.values[0],
+          //  sessions: response?.result?.reports?.[0].data?.rows?.[0]?.metrics[0]?.values[1],
+          //  pageviews: response?.result?.reports?.[0].data?.rows?.[0]?.metrics[0]?.values[2]
+          //}
 
           resolve(data_rows);
         })

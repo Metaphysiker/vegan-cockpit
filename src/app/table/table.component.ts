@@ -37,16 +37,33 @@ export class TableComponent implements OnInit {
   }
 
   ngDoCheck(){
-    if(JSON.stringify(this.rows) !== JSON.stringify(this.oldRows)){
+    console.log("ngDoCheck:");
+    console.log(this.areEqual(this.rows, this.oldRows));
 
-      if(this.rows.length > 0){
-        this.getTotals();
-        this.oldRows = [...this.rows];
-      }
+    if(this.areEqual(this.rows, this.oldRows)){
+
+      this.getTotals();
+      this.oldRows = [...this.rows];
 
     }
 
   }
+
+  areEqual(array1: any, array2: any){
+  if (array1.length === array2.length) {
+    return array1.every((element: any, index: any) => {
+      if (element === array2[index]) {
+        return true;
+      }
+
+      return false;
+    });
+
+    return false;
+  }
+
+  return false;
+}
 
   addSomething(){
     console.log("add");
