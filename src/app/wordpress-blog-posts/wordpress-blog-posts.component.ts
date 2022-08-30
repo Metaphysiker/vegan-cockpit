@@ -63,12 +63,12 @@ export class WordpressBlogPostsComponent implements OnInit {
     }
 
     for (let i = 0; i < this.wordpressBlogPosts.length; i++) {
-
       analysis["users"] += parseInt(this.wordpressBlogPosts[i]["users"] as any);
       analysis["sessions"] += parseInt(this.wordpressBlogPosts[i]["sessions"] as any);
       analysis["pageviews"] += parseInt(this.wordpressBlogPosts[i]["pageviews"] as any);
     }
 
+    console.log("HERE IS ANALYSIS");
     console.log(analysis);
     return analysis;
   }
@@ -142,13 +142,32 @@ export class WordpressBlogPostsComponent implements OnInit {
 
             self.getGoogleDataAndUpdate(self.wordpressBlogPosts[i]["url"]).then((result: any) => {
 
-              self.blog_posts[i]["users"] = result["users"];
-              self.blog_posts[i]["sessions"] = result["sessions"];
-              self.blog_posts[i]["pageviews"] = result["pageviews"];
+              console.log("getGoogleDataAndUpdate");
+              console.log(result);
 
-              self.wordpressBlogPosts[i]["users"] = result["users"];
-              self.wordpressBlogPosts[i]["sessions"] = result["sessions"];
-              self.wordpressBlogPosts[i]["pageviews"] = result["pageviews"];
+              var users = 0;
+              var sessions = 0;
+              var pageviews = 0;
+
+              if(!isNaN(result["users"])) {
+                users += parseInt(result["users"], 10)
+              }
+
+              if(!isNaN(result["sessions"])) {
+                sessions += parseInt(result["sessions"], 10)
+              }
+
+              if(!isNaN(result["pageviews"])) {
+                pageviews += parseInt(result["pageviews"], 10)
+              }
+
+              self.blog_posts[i]["users"] = users;
+              self.blog_posts[i]["sessions"] = sessions;
+              self.blog_posts[i]["pageviews"] = pageviews;
+
+              self.wordpressBlogPosts[i]["users"] = users;
+              self.wordpressBlogPosts[i]["sessions"] = sessions;
+              self.wordpressBlogPosts[i]["pageviews"] = pageviews;
 
               //self.blog_posts = self.blog_posts.sort((a: any, b: any) => b.users - a.users);
 

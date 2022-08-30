@@ -65,34 +65,28 @@ export class CategoryAnalyticsComponent implements OnInit {
   }
 
   analysisComplete(analysis: Analysis){
-    console.log(analysis);
-    this.analyses.push(analysis);
-    console.log("this.analyses: ");
-    console.log(this.analyses);
 
-    console.log(this.analyses.length);
-    console.log(this.categories.length);
+    this.analyses.push(analysis);
 
     if(this.analyses.length == this.categories_length) {
       this.analysis_status = "finished";
-      console.log("ANALYSIS FINISHED");
       this.fillPieChartDatas();
     } else {
       this.categories.push(this.categories_to_be_done.shift());
-      console.log("shift");
     }
 
 
   }
 
   fillPieChartData(analyses: Analysis[], metric: "users" | "sessions" | "pageviews"): PieChartData {
+    console.log("fillPieChartData");
 
     var labels: string[] = [];
     var data: number[] = [];
-    console.log()
     var sorted_array = analyses.sort(function(a, b){return b[metric] - a[metric]});
 
     for (let i = 0; i < sorted_array.length; i++) {
+      console.log(sorted_array[i][metric]);
       labels.push(sorted_array[i]["category_name"] +  ": " + sorted_array[i][metric]);
       data.push(sorted_array[i][metric]);
     }
@@ -145,8 +139,8 @@ export class CategoryAnalyticsComponent implements OnInit {
 
     this.wordpressService.getCategories()
     .subscribe((response: any) => {
-      this.categories_length = response.length;
-      //this.categories_length = 3;
+      //this.categories_length = response.length;
+      this.categories_length = 2;
       this.categories_to_be_done = response;
 
       this.categories.push(this.categories_to_be_done.shift());
