@@ -4,4 +4,5 @@ export interface PayrexxTransaction {
   lastname: string;
   time: string;
   user_id: number;
+  status: string;
 }
