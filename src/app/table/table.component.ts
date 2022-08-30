@@ -37,16 +37,7 @@ export class TableComponent implements OnInit {
   }
 
   ngDoCheck(){
-    console.log("ngDoCheck:");
-    console.log(this.areEqual(this.rows, this.oldRows));
-
-    if(this.areEqual(this.rows, this.oldRows)){
-
-      this.getTotals();
-      this.oldRows = [...this.rows];
-
-    }
-
+    //this.getTotals();
   }
 
   areEqual(array1: any, array2: any){
