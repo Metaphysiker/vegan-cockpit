@@ -11,6 +11,8 @@ export class TableComponent implements OnInit {
     "a", "b", "c", "d"
   ]
 
+  oldRows: any[] = [];
+
   @Input() rows: any[] =
     [
       {a: "123", b: "alphabet", c: "s.raess@me.com", d: 123},
@@ -21,7 +23,9 @@ export class TableComponent implements OnInit {
       {a: " 50", b: "beta", c: "sandro@vegan.ch", d: "0"},
       {a: " 50", b: "beta", c: "sandro@vegan.ch", d: " "},
       {a: " 50", b: "beta", c: "sandro@vegan.ch", d: undefined},
-      {a: " 50", b: "beta", c: "sandro@vegan.ch", d: "unknown" }
+      {a: " 50", b: "beta", c: "sandro@vegan.ch", d: "unknown" },
+      {a: " 50", b: "beta", c: "sandro@vegan.ch" }
+
     ]
 
     totals: any = {};
@@ -32,9 +36,30 @@ export class TableComponent implements OnInit {
     this.getTotals();
   }
 
+  ngDoCheck(){
+
+    if(this.rows.length !== this.oldRows.length){
+      this.getTotals();
+      this.oldRows = [...this.rows];
+    }
+
+  }
+
   ngOnChanges(changes: SimpleChanges) {
-    // changes.prop contains the old and the new value...
-    this.getTotals();
+    console.log(changes);
+    if(changes && changes.rows) {
+      console.log("change!");
+      // changes.prop contains the old and the new value...
+      this.getTotals();
+    }
+
+  }
+
+  addSomething(){
+    console.log("add");
+    this.rows.push(
+      {a: "5555", b: "alphabet", c: "s.raess@me.com", d: 9876},
+    )
   }
 
   getTotals(){
