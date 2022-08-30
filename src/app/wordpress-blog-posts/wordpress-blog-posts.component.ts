@@ -64,11 +64,12 @@ export class WordpressBlogPostsComponent implements OnInit {
 
     for (let i = 0; i < this.wordpressBlogPosts.length; i++) {
 
-      analysis["users"] = analysis["users"] + this.wordpressBlogPosts[i]["users"];
-      analysis["sessions"] = analysis["sessions"] + this.wordpressBlogPosts[i]["sessions"];
-      analysis["pageviews"] = analysis["pageviews"] + this.wordpressBlogPosts[i]["pageviews"];
+      analysis["users"] += parseInt(this.wordpressBlogPosts[i]["users"] as any);
+      analysis["sessions"] += parseInt(this.wordpressBlogPosts[i]["sessions"] as any);
+      analysis["pageviews"] += parseInt(this.wordpressBlogPosts[i]["pageviews"] as any);
     }
 
+    console.log(analysis);
     return analysis;
   }
 

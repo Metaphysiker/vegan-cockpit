@@ -37,20 +37,13 @@ export class TableComponent implements OnInit {
   }
 
   ngDoCheck(){
+    if(JSON.stringify(this.rows) !== JSON.stringify(this.oldRows)){
 
-    if(this.rows.length !== this.oldRows.length){
-      this.getTotals();
-      this.oldRows = [...this.rows];
-    }
+      if(this.rows.length > 0){
+        this.getTotals();
+        this.oldRows = [...this.rows];
+      }
 
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
-    if(changes && changes.rows) {
-      console.log("change!");
-      // changes.prop contains the old and the new value...
-      this.getTotals();
     }
 
   }
@@ -65,6 +58,10 @@ export class TableComponent implements OnInit {
   getTotals(){
 
     this.totals = {};
+
+    console.log("getTotals");
+    console.log(this.rows[0]);
+    console.log(Object.entries(this.rows[0]));
 
     for (var [key, value] of Object.entries(this.rows[0])) {
       this.totals[key] = 0;
