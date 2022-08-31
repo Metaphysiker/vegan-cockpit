@@ -70,7 +70,8 @@ export class PayrexxService {
               lastname: data[i]["lastname"],
               time: data[i]["time"],
               user_id: data[i]["user_id"],
-              status: data[i]["status"]
+              status: data[i]["status"],
+              products: data[i]["products"]
             }
           )
         }

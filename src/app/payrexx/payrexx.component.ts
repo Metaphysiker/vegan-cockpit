@@ -11,7 +11,7 @@ import { PayrexxOptions } from '../payrexx-options';
 })
 export class PayrexxComponent implements OnInit {
   transactions: any = []
-  headers_for_transactions: any = ["amount", "status", "firstname", "lastname", "time", "user_id"]
+  headers_for_transactions: any = ["amount", "products", "status", "firstname", "lastname", "time", "user_id"]
 
   data_wordpress_nonce = document.querySelector('#data-wordpress-nonce');
 
