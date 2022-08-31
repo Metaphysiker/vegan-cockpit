@@ -4,13 +4,16 @@ import { PayrexxService } from '../payrexx.service';
 
 import { PayrexxOptions } from '../payrexx-options';
 
+import { PayrexxTransaction } from '../payrexx-transaction';
+
 @Component({
   selector: 'app-payrexx',
   templateUrl: './payrexx.component.html',
   styleUrls: ['./payrexx.component.scss']
 })
 export class PayrexxComponent implements OnInit {
-  transactions: any = []
+  transactions: any = [];
+  confirmed_transactions: PayrexxTransaction[] = [];
   headers_for_transactions: any = ["amount", "products", "status", "firstname", "lastname", "time", "user_id"]
 
   data_wordpress_nonce = document.querySelector('#data-wordpress-nonce');
@@ -69,7 +72,16 @@ export class PayrexxComponent implements OnInit {
         console.log("payrexx component here should be transactions");
         console.log(response)
         this.transactions = response;
+        this.getConfirmedTransactions(response);
       })
+  }
+
+  getConfirmedTransactions(transactions: PayrexxTransaction[]){
+    for (let i = 0; i < transactions.length; i++) {
+      if(transactions[i]["status"] === "confirmed"){
+        this.confirmed_transactions.push(transactions[i]);
+      }
+    }
   }
 
 }
