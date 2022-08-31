@@ -37,6 +37,10 @@ export class TableComponent implements OnInit {
   }
 
   ngDoCheck(){
+    if(!this.compareArraysWithObjects(this.rows, this.oldRows)){
+      this.getTotals();
+      this.oldRows = [...this.rows];
+    };
     //this.getTotals();
   }
 
@@ -61,6 +65,21 @@ export class TableComponent implements OnInit {
     this.rows.push(
       {a: "5555", b: "alphabet", c: "s.raess@me.com", d: 9876},
     )
+  }
+
+  compareArraysWithObjects(array1: any[], array2: any[]){
+    console.log("compareArraysWithObjects");
+    if(array1.length !== array2.length){
+      return false;
+    }
+
+    for (let i = 0; i < array1.length; i++) {
+
+      if(JSON.stringify(array1[i] !== JSON.stringify(array2[i]))){
+        return false
+      }
+    }
+    return true;
   }
 
   getTotals(){
