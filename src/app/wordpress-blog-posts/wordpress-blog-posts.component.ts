@@ -117,7 +117,10 @@ export class WordpressBlogPostsComponent implements OnInit {
               if(page_index * per_page > self.category["count"]) {
                 final_resolve("finished");
               }
-            });
+            },
+          (error: any) => {
+            final_resolve("finished");
+          });
 
 
 
